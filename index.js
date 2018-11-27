@@ -34,11 +34,6 @@ var con = mysql.createConnection({
    password: "qwerty1995",
    database : 'truskendb'
 
-// host: "localhost",
-//    user: "root",
-//    password: "azhar",
-//    database : 'truskendb'
-
 
 });
 
