@@ -43,7 +43,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(8100,'142.93.209.228' ,function (){
+var server = app.listen(80,'142.93.209.228' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
