@@ -43,11 +43,21 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(80,'142.93.209.228' ,function (){
+var server = app.listen(80,'139.59.77.83' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
 });
+
+// to run app in prod/env mode
+
+app.configure('development', function(){
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  });
+  
+  app.configure('production', function(){
+    app.use(express.errorHandler()); 
+  });
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
