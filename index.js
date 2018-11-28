@@ -10,6 +10,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cookieParser());
+
+// to run app in prod/dev mode
+if(process.env.NODE_ENV === 'production') {
+    app.set('port', 80);
+    // additional prod environemtn configuration
+  }
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
     name:'user_sid',
@@ -48,16 +54,6 @@ var server = app.listen(80,'139.59.77.83' ,function (){
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
 });
-
-// to run app in prod/env mode
-
-app.configure('development', function(){
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-  });
-  
-  app.configure('production', function(){
-    app.use(express.errorHandler()); 
-  });
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
