@@ -10,12 +10,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cookieParser());
-
-// to run app in prod/dev mode
-if(process.env.NODE_ENV === 'production') {
-    app.set('port', 80);
-    // additional prod environemtn configuration
-  }
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
     name:'user_sid',
@@ -40,6 +34,11 @@ var con = mysql.createConnection({
    password: "qwerty1995",
    database : 'truskendb'
 
+// host: "localhost",
+//    user: "root",
+//    password: "azhar",
+//    database : 'truskendb'
+
 
 });
 
@@ -49,7 +48,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(80,'159.89.167.8' ,function (){
+var server = app.listen(80,'206.189.142.47' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
