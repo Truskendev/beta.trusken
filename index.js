@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -13,9 +14,40 @@ app.use(cookieParser());
 
 // to run app in prod/dev mode
 if(process.env.NODE_ENV === 'production') {
-    app.set('port', 80);
+    app.set('port', 3000);
     // additional prod environemtn configuration
   }
+
+// forever service to run app
+
+var forever = require('forever-monitor');
+
+  var child = new (forever.Monitor)('index.js', {
+    max: 3,
+    silent: true,
+    args: []
+  });
+
+  child.on('exit', function () {
+    console.log('index.js has exited after 3 restarts');
+  });
+
+  child.start();
+
+var child = new (forever.Monitor)('index.js');
+
+child.on('watch:restart', function(info) {
+    console.error('Restaring script because ' + info.file + ' changed');
+});
+
+child.on('restart', function() {
+    console.error('Forever restarting script for ' + child.times + ' time');
+});
+
+child.on('exit:code', function(code) {
+    console.error('Forever detected script exited with code ' + code);
+});
+
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
     name:'user_sid',
@@ -35,11 +67,10 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
-  user: "trusken123",
-   password: "qwerty1995",
+  host: "142.93.218.67",
+  user: "truskendbuser",
+   password: "Authtruskendb@18",
    database : 'truskendb'
-
 
 });
 
@@ -49,7 +80,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(80,'159.89.167.8' ,function (){
+var server = app.listen(3000,'localhost' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
@@ -1228,7 +1259,7 @@ app.post('/totalCoins',(request,response)=>{
                 
                 
                 let content=mailer.getFpassMailTemplate(request.body.fpass)
-                mailer.sendMail(request.body.fpass,'Trusken New Password Request',content,(response) => {
+                mailer.sendMail(request.body.fpass,'Reset your password for Trusken',content,(response) => {
                     if(response.status == 200)
                     {
                         console.log("mail success")

@@ -92,31 +92,6 @@ function loginHom(rid) {
 	
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
-		
-		
-		
-		
-		
-		
-		
-
-	
 	
 }
 const log = console.log
@@ -1172,14 +1147,6 @@ function loadEducationDetails(uid) {
 
 
 
-
-
-
-
-
-
-
-
 function redirCompSalary(uid) {
 	window.location.href = "salaryalc.html?" + uid
 }
@@ -1908,7 +1875,7 @@ function reqPassword() {
 		alert("check your mail to reset password")
 	}
 	else {
-		alert("Please Enter proper Mail Id")
+		alert("Please Enter the correct E-Mail Id")
 	}
 }
 
@@ -1933,7 +1900,7 @@ function resetPassword(eid) {
 
 		})
 	} else {
-		alert("please provide Password")
+		alert("Please enter the password")
 	}
 
 }
