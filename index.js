@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 // to run app in prod/dev mode
 if(process.env.NODE_ENV === 'production') {
-    app.set('port', 3000);
+    app.set('port', 80);
     // additional prod environemtn configuration
   }
 
@@ -80,7 +80,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(5003,'localhost' ,function (){
+var server = app.listen(80,'159.89.167.8' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
