@@ -1370,7 +1370,7 @@ function redirProfile(uid) {
 	window.location = "profile.html" + '?' + uid
 }
 function redirJobBoard(uid) {
-	window.location = "jobboard.html" + '?' + uid
+	window.location = "jobBoard.html" + '?' + uid
 }
 function redirbdgdatails(uid, bid) {
 	window.location = "badgeDetails.html" + '?' + uid + '/' + bid
