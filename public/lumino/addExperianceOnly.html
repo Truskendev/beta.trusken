@@ -201,6 +201,29 @@ $(document).ready(function(){
 			});
 		});
 		// ############# companyName getting @ Aravind M #############
+
+				// ############# allCities getting @ Aravind M #############
+				$.post("/getAllCities", function (respons) {
+				// localStorage.setItem("citiess",JSON.stringify(respons));
+				respons.forEach((element,index) => {
+					// console.log(element)
+					$("#allCities").append(new Option(element.name,element.name)) 
+			});
+		
+		});
+		// ############# allCities getting @ Aravind M #############
+
+		// ############# allJobTitles getting @ Aravind M #############
+		$.post("/getAllJobTitles", function (respons) {
+			// localStorage.setItem("jobtitles",JSON.stringify(respons));
+				respons.forEach((element,index) => {
+					// console.log("aravind",element)
+					$("#jTitles").append(new Option(element.job_title_name,element.job_title_name))
+			});
+		});	
+
+		// ############# allJobTitiles getting @ Aravind M #############		
+
 	});
 
 // $(document).ready(function(){

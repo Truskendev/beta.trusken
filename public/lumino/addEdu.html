@@ -209,14 +209,21 @@
 			});
 		};
 
-
-
-
 		$(document).ready(function () {
 			let uid = window.location.href.split('?')[1];
 			loadProfilePage(uid);
 			loadaddEdu(uid)
 
+			// ############# allCities getting @ Aravind M #############		
+				$.post("/getAllCities", function (respons) {
+					// localStorage.setItem("citiess",JSON.stringify(respons));
+					respons.forEach((element,index) => {
+						// console.log(element)
+						$("#allCities").append(new Option(element.name,element.name)) 
+					});
+		
+				});
+			// ############# allCities getting @ Aravind M #############
 		});
 
 	</script>

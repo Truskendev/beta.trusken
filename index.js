@@ -23,13 +23,13 @@ if(process.env.NODE_ENV === 'production') {
 var forever = require('forever-monitor');
 
   var child = new (forever.Monitor)('index.js', {
-    max: 3,
-    silent: true,
-    args: []
+        max: 3,
+        silent: true,
+        args: []
   });
 
   child.on('exit', function () {
-    console.log('index.js has exited after 3 restarts');
+        console.log('index.js has exited after 3 restarts');
   });
 
   child.start();
@@ -67,9 +67,9 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "142.93.218.67",
-  user: "truskendbuser",
-   password: "Authtruskendb@18",
+  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
+  user: "trusken123",
+   password: "qwerty1995",
    database : 'truskendb'
 
 });
@@ -80,7 +80,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(3000,'localhost' ,function (){
+var server = app.listen(5003,'localhost' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
@@ -314,14 +314,9 @@ app.post('/registerNewUser',sessionChecker,(request,response)=>{
                 {
                     console.log("mail failed")
                 }
-            })
-           
-        }
-        
+            })  
+        }  
       })
-
-     
-
 })
 
 function insertcoinsIssued(ciid,guid,resultse){
@@ -455,7 +450,7 @@ function loginChecks(loginName,loginPass){
         }
         
       })
-})
+    })
 
 
 }
@@ -494,7 +489,7 @@ app.post('/addWorkExData',(request,response)=>{
 
         }
         
-      })
+    })
       var sq="update user set wexSubm=1 where user_id='"+uid+"' and wexSubm=0"
       con.query(sq, function (error, results, fields) {
         if (error) 
@@ -510,7 +505,7 @@ app.post('/addWorkExData',(request,response)=>{
         
       })
 
-})  
+    })  
 
 
 
@@ -906,9 +901,118 @@ app.post('/getMarksheet',(request,response)=>{
         
       })
 })
+    //@@@@@@@@ get all job titles from job_titles page
+    app.post('/getAllJobTitles',(request,reponse)=>{
+        var sql = "SELECT * from job_titles limit 50"
+        con.query(sql, function(error, results, fields){
+            if(error){
+                response.status(500).send({error:error})
+            }
+            else{
+                reponse.send(results);
+            }
+        })
+    })
+    // @@@@@@@@@@@ Getting All companynames for company dropdwon from company_names table @ Aravind M @@@@@@@@@@@@@@
+   
+    app.post('/getAllCompanyNames',(request,reponse)=>{
+        var sql = "SELECT * from company_names Limit 50"
+        con.query(sql, function(error, results, fields){
+            if(error){
+                response.status(500).send({error:error})
+            }
+            else{
+                reponse.send(results);
+            }
+        })
+    })
 
-app.post('/getAllCompanyNames',(request,reponse)=>{
-    var sql = "SELECT * from company_names"
+    // @@@@@@@@@@@ Getting All companynames for company dropdwon from company_names table @ Aravind M @@@@@@@@@@@@@@
+
+    // @@@@@@@@@@@ Getting All Cities for cities dropdwon from cities table @ Aravind M @@@@@@@@@@@@@@
+    app.post('/getAllCities',(request,reponse)=>{
+        var sql = "SELECT * from cities Limit 100"
+        con.query(sql, function(error, results, fields){
+            if(error){
+                response.status(500).send({error:error})
+            }
+            else{
+                reponse.send(results);
+            }
+        })
+    })
+
+    // @@@@@@@@@@@ Getting All Cities for cities dropdwon from cities table  @ Aravind M @@@@@@@@@@@@@@
+
+           //@@@@@@@@@@ Inserting JobTitle  to  table  @Aravind M @@@@@@@@@@@@@@
+        app.post('/addJobTitle',(request,response)=>{
+            // console.log("add job title name to job_title table");
+        //  console.log(JSON.stringify(request.body));
+         var sql = "INSERT INTO job_titles (job_title_name,reviewed) values ('"+request.body.jTitle+"','N')";
+         console.log(sql);
+         con.query(sql,function(error, results, fields){
+             if (error) 
+             {
+                 console.log("############## ERROR ############");
+                 response.status(500).send({error:error})
+             }
+             // console.log('The solution is: ', JSON.stringify(results));
+             else{
+                 console.log("############## SUCCESS ############");
+               response.send(results);
+             }
+         })
+ 
+     })
+     //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
+
+    //@@@@@@@@@@ Inserting New companyname to company_names table  @Aravind M @@@@@@@@@@@@@@
+    app.post('/addCompanyName',(request,response)=>{
+        // console.log(JSON.stringify(request.body));
+        var sql = "INSERT INTO company_names (companyname,reviewed) values ('"+request.body.companyName+"','N')";
+        // console.log(sql);
+        con.query(sql,function(error, results, fields){
+            if (error) 
+            {
+                console.log("############## ERROR ############");
+                response.status(500).send({error:error})
+            }
+            // console.log('The solution is: ', JSON.stringify(results));
+            else{
+                console.log("############## SUCCESS ############");
+              response.send(results);
+            }
+        })
+
+    })
+    //@@@@@@@@@@ Inserting New companyname to company_names table  @Aravind M @@@@@@@@@@@@@@
+
+           //@@@@@@@@@@ Inserting city name  to cities table  @Aravind M @@@@@@@@@@@@@@
+        app.post('/addCityName',(request,response)=>{
+            // console.log("add city name to cities table");
+            //  console.log(JSON.stringify(request.body));
+         var sql = "INSERT INTO cities (name,reviewed) values ('"+request.body.location+"','N')";
+            // console.log(sql);
+         con.query(sql,function(error, results, fields){
+             if (error) 
+             {
+                 console.log("############## ERROR ############");
+                 response.status(500).send({error:error})
+             }
+             // console.log('The solution is: ', JSON.stringify(results));
+             else{
+                 console.log("############## SUCCESS ############");
+               response.send(results);
+             }
+         })
+ 
+     })
+     //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
+
+     //Getting All region from region table region_name column  @Aravind M@@@@@@@@@@
+    app.post('/getAllregions',(request,reponse)=>{
+    // console.log("@@@@@@@ regions @@@@@@");
+    var sql = "SELECT * from region"
     con.query(sql, function(error, results, fields){
         if(error){
             response.status(500).send({error:error})
@@ -916,8 +1020,35 @@ app.post('/getAllCompanyNames',(request,reponse)=>{
         else{
             reponse.send(results);
         }
+        })
     })
-})
+
+    //Getting All region from region table region_name column  @Aravind M@@@@@@@@@@
+   
+    //Getting job details data
+    app.post('/getJobDetailsData',(request,response)=>{
+        // console.log("getting job details data ## dk");
+        // console.log("hello",JSON.stringify(request.body));
+    
+        //  var sql = "SELECT * from job_Board inner join job_titles on (job_titles.job_title_id=job_Board.job_title_id) WHERE job_titles.job_title_name='"+request.body.jTitle+"' AND cities on (cities.id=job_Board.location_id)  WHERE cities.name='"+request.body.location+"'";
+        var sql = "select * from job_Board left join job_titles on job_titles.job_title_id=job_Board.job_title_id left join cities on cities.id=job_Board.location_id where job_titles.job_title_name='"+request.body.jTitle+"' AND cities.name='"+request.body.location+"' ";
+
+        con.query(sql, function (error, results, fields) {
+            if (error) 
+            {
+                console.log("############## ERROR ############");
+                response.status(500).send({error:error})
+            }
+            // console.log('The solution is: ', JSON.stringify(results));
+            else{
+                console.log("############## success ############");
+            response.send(results);
+            }
+            
+        })
+    })
+
+
 
 app.post('/updateMarksheet',(request,response)=>{
     console.log(JSON.stringify(request.body))

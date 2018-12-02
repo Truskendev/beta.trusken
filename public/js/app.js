@@ -290,6 +290,177 @@ function updateProfile() {
 
 
 }
+	// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
+		//Job Board posting  Aravind
+	function loadJobBoardPage(){
+		console.log("Job board testing");
+		console.log("city Name :->",$('#city').val());
+
+
+		let Lscompanynames = localStorage.getItem('companynames');
+		let allCompanyNames = JSON.parse(Lscompanynames);
+			
+		
+		let Lsjobdetails = localStorage.getItem('jobtitles');
+		let allJobTitles = JSON.parse(Lsjobdetails);
+		
+		let LsCities = localStorage.getItem('citiess');
+		let allCityNames = JSON.parse(LsCities);
+
+		let jobBoardData = {
+			jTitle: $('#jobTitle').val(),
+			companyName: $('#jobPostcompanyName').val(),
+			location: $('#city').val(),
+			experiance: $('#experiance').val(),
+			jobSummary: $('#jobSummary').val(),
+			jobDetails: $('#jobDetails').val(),
+			jobSummary: $('#jobSummary').val(),
+			postedDate: $('#postedDate').val(),
+			activeTillDate: $('#activeTillDate').val(),
+			uid: window.location.href.split('?')[1]
+		}
+		console.log("userId @ hari",window.location.href.split('?')[1]);
+		
+			//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table@@@@@@@ Aravind@@@@@@@
+			let companynamesData = {
+				companyName : jobBoardData.companyName
+			}
+			let index = allCompanyNames.map(ele => { return ele.companyname}).indexOf(jobBoardData.companyName);
+			if(index==-1){
+				$.post("/addCompanyName",companynamesData,function(response){
+					console.log("company name Posting@@@@@@@@",response);
+					jobBoardData.company_id=response.insertId;
+				})
+			}
+			
+			//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table @@@@@@ Aravind@@@@@@@@
+
+			//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
+			let jobTitlesData = {
+				jTitle : jobBoardData.jTitle 
+			}
+			let inde = allJobTitles.map(ele => { return ele.job_title_name}).indexOf(jobBoardData.jTitle);
+			if(inde==-1){
+				$.post("/addJobTitle",jobTitlesData,function(response){
+					console.log("job title name posting ####",response);
+					console.log(response.insertId);
+					jobBoardData.job_title_id=response.insertId;
+				})
+			}
+		//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
+
+			//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
+			let cityData ={
+				location : jobBoardData.location
+			}
+			let indexx = allCityNames.map(ele => { return ele.name}).indexOf(jobBoardData.location);
+			if(indexx==-1){
+				$.post("/addCityName",cityData,function(response){
+					console.log("city name Posting@@@@@@@@",response);
+					console.log(response.insertId);
+					jobBoardData.location=response.insertId;
+				})
+			}
+			//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
+
+			console.log("%%%",jobBoardData);
+
+		$.post("/addJobBoardData", jobBoardData,function (response) {
+			console.log("@@@",response);
+			console,log("#######",jobBoardData);
+			// if (response.redirectFlag === true) {
+			// 	window.location.href = '/'
+			// }
+			//log(response[0]);
+			// userID=response.guid	
+			// window.location=response.redirectUrl+'?'+userID
+			// $('#jTitle').text(response[0].job_title_id)
+			// $('#userNameDis').text(response[0].company_id)
+			// $('#location').text( + response[0].location_id)
+			// $('#experiance').text(exp_years)
+			// $('#jobSummary').text(job_summary)
+			// $('#jobDetails').text(job_details)
+			// $('#jobSummary').text(posted_date)
+			// $('#jobDetails').text(active_till_date)
+
+			// job_title_id,company_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date
+		})
+			.done(function () {
+
+				log("second success");
+			})
+			.fail(function (error) {
+				log(error.responseJSON.error.sqlMessage);
+			})
+			.always(function () {
+				log("finished");
+			});
+
+	}
+
+	function search(){
+	console.log($('#skills').val());
+	console.log($('#city').val());
+
+				let jobSearchedData= {
+			jTitle: $('#skills').val(),
+			location: $('#city').val()
+		}
+		if(jobSearchedData.jTitle!=''){
+			if(jobSearchedData.location!=''){
+				$.post("/getJobDetailsData", jobSearchedData, function (response) {
+					console.log("fayaz",response);
+					//log(response[0]);
+		
+					response.forEach((element) => {
+					
+						// var status = element.verification_status == 0 ? "Verification in progress" : "Verified";
+						var we = 
+							`<tr>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.job_id + `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.posted_date + `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.active_till_date + `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ jobSearchedData.jTitle+ `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.job_summary + `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.exp_years + `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">` + jobSearchedData.location + `</td>
+							</tr>`;
+						$('#jobBoardAppend tbody').append(we);
+			
+					});
+					// userID=response.guid	
+					// window.location=response.redirectUrl+'?'+userID
+					// $('#userNameDisplay').text(response[0].user_name)
+					// $('#jobTitle').text(response[0].job_title_id)
+					// $('#companyName').text(response[0].org_id)
+					// $('#empNumber').text(response[0].emp_num)
+					// $('#startDate').text(response[0].start_date)
+					// $('#endDate').text(response[0].end_date)
+					// $('#workDescription').text(response[0].desc_work)
+					// $('#employmentType').text(response[0].emp_type_id)
+
+				})
+					.done(function () {
+						log("second success");
+					})
+					.fail(function (error) {
+						log(error.responseJSON.error.sqlMessage);
+					})
+					.always(function () {
+						log("finished");
+					});
+			
+		}else{
+			alert("Please Enter City Name");
+		}
+		}else{
+			alert("Please Enter Job Title");
+		}
+			
+	}
+	// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
+
+
 
 function addexp(index) {
 	// var a;
@@ -488,63 +659,96 @@ function checkWorkExp(event, expCount) {
 			managerEmail: $('#managerEmail' + c).val(),
 			empdesc: $('#empdesc' + c).val(),
 			city: $('#city' + c).val(),
-			state: $('#state' + c).val(),
-			country: $('#country' + c).val(),
+			// state: $('#state' + c).val(),
+			// country: $('#country' + c).val(),
 			selectedworkexp: selectedworkexp,
 			uid: window.location.href.split('?')[1],
 
 		}
 		workData[c] = workData1
 
-
-
-
 		if ((workData[c]['workTitle'].length > 1)) {
-
 			if ((workData[c]['companyName'].length > 1)) {
-
-
-
-				
-					
-					if ((workData[c]['city'].length > 1)) {
-						if ((workData[c]['state'].length > 1)) {
-							if ((workData[c]['country'].length > 1)) {
-								if (!(workData[c]['workstartYear'].includes("null"))) {
-									
-										if(workData[c]['workstartYear']<workData[c]['workEndYear']){
-								$('#myModal').modal('show');
-						
-									
-							}else {
-								alert("End date is less than start Date")
-							}
-						
-						
-						}else {
-								alert("Please provide a start date")
-							} 
-
-						
-						} else {
-							alert("Please enter the city name")
-						}
-					} else {
-						alert("Please enter the state name")
-					}
+				if ((workData[c]['city'].length > 1)) {
+					// if ((workData[c]['state'].length > 1)) {
+					// 	if ((workData[c]['country'].length > 1)) {
+					// 		// if ((stDate !== '00')) {
+								if ((stMonth !== 'null')) {
+									if ((stYear !== 'null')) {
+										if((stYear < enYear)){
+											
+											$('#myModal').modal('show');
+										}else{
+											alert("please enter Your End Year Grater Than Start Year");
+										}
+									} else {
+										alert("please provide Year")
+									}
+								} else {
+									alert("please provide Month")
+								}
+							// } else {
+							// 	alert("please provide Day")
+							// }
+						// } else {
+						// 	alert("please Country Name")
+						// }
+					// } else {
+					// 	alert("please provide State Name")
+					// }
 				} else {
-					alert("Please enter the country name")
+					alert("please Provide City Name")
 				}
 			} else {
-				alert("Please enter the company name")
+				alert("please Provide Company Name")
 			}
-
-
-
 		}
 		else {
-			alert("Please enter your Job title")
+			alert("please Provide Title")
 		}
+
+		// if ((workData[c]['workTitle'].length > 1)) {
+
+		// 	if ((workData[c]['companyName'].length > 1)) {
+
+		// 			if ((workData[c]['city'].length > 1)) {
+		// 				if ((workData[c]['state'].length > 1)) {
+		// 					if ((workData[c]['country'].length > 1)) {
+		// 						if (!(workData[c]['workstartYear'].includes("null"))) {
+									
+		// 								if(workData[c]['workstartYear']<workData[c]['workEndYear']){
+		// 						$('#myModal').modal('show');
+						
+									
+		// 					}else {
+		// 						alert("End date is less than start Date")
+		// 					}
+						
+						
+		// 				}else {
+		// 						alert("Please provide a start date")
+		// 					} 
+
+						
+		// 				} else {
+		// 					alert("Please enter the city name")
+		// 				}
+		// 			} else {
+		// 				alert("Please enter the state name")
+		// 			}
+		// 		} else {
+		// 			alert("Please enter the country name")
+		// 		}
+		// 	} else {
+		// 		alert("Please enter the company name")
+		// 	}
+
+
+
+		// }
+		// else {
+		// 	alert("Please enter your Job title")
+		// }
 	}
 }
 
@@ -625,7 +829,7 @@ function addWorkexq(expCount) {
 
 
 
-		if ((workData[c]['companyName'].length > 1) && (workData[c]['workstartYear'].length > 1) && (workData[c]['workTitle'].length > 1) && (workData[c]['city'].length > 1) && (workData[c]['state'].length > 1) && (workData[c]['country'].length > 1)) {
+		if ((workData[c]['companyName'].length > 1) && (workData[c]['workstartYear'].length > 1) && (workData[c]['workTitle'].length > 1) && (workData[c]['city'].length > 1)) {
 			$('#forgot-form').modal('show');
 			setTimeout(function () { $('#forgot-form').modal('hide'); }, 4000);
 			$.post("/addWorkExDataa", workData[c], function (response) {
@@ -1165,6 +1369,9 @@ function redirtrust(uid) {
 function redirProfile(uid) {
 	window.location = "profile.html" + '?' + uid
 }
+function redirJobBoard(uid) {
+	window.location = "jobboard.html" + '?' + uid
+}
 function redirbdgdatails(uid, bid) {
 	window.location = "badgeDetails.html" + '?' + uid + '/' + bid
 
@@ -1350,20 +1557,12 @@ function loadCompareSalary(uid) {
 	$.post("/getCompareSalaryData", { uid: uid }, function (response) {
 		//log(response[0]);
 
-
-
-
 		response.forEach((element) => {
-
 			var wer = `
 				<option value="`+ element.job_title + `" > ` + element.job_title + `</option>
 				`
 			$('#jTitle').append(wer);
-
 		});
-
-
-
 	})
 		.done(function () {
 
