@@ -163,7 +163,7 @@ requestPromiseAPI(requestbody).then((body)=>{
                    email:loginName
                 }
                 console.log('The solution is: ', JSON.stringify(results))
-                if(results.length===1)
+                if(results.length==1)
                 {
                     if(results[0]['wexSubm']==1)
                     {
