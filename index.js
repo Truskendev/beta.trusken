@@ -13,40 +13,40 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // to run app in prod/dev mode
-if(process.env.NODE_ENV === 'production') {
-    app.set('port', 80);
-    // additional prod environemtn configuration
-  }
+// if(process.env.NODE_ENV === 'production') {
+//     app.set('port', 80);
+//     // additional prod environemtn configuration
+//   }
 
 // forever service to run app
 
-var forever = require('forever-monitor');
+// var forever = require('forever-monitor');
 
-  var child = new (forever.Monitor)('index.js', {
-        max: 3,
-        silent: true,
-        args: []
-  });
+//   var child = new (forever.Monitor)('index.js', {
+//         max: 3,
+//         silent: true,
+//         args: []
+//   });
 
-  child.on('exit', function () {
-        console.log('index.js has exited after 3 restarts');
-  });
+//   child.on('exit', function () {
+//         console.log('index.js has exited after 3 restarts');
+//   });
 
-  child.start();
+//   child.start();
 
-var child = new (forever.Monitor)('index.js');
+// var child = new (forever.Monitor)('index.js');
 
-child.on('watch:restart', function(info) {
-    console.error('Restaring script because ' + info.file + ' changed');
-});
+// child.on('watch:restart', function(info) {
+//     console.error('Restaring script because ' + info.file + ' changed');
+// });
 
-child.on('restart', function() {
-    console.error('Forever restarting script for ' + child.times + ' time');
-});
+// child.on('restart', function() {
+//     console.error('Forever restarting script for ' + child.times + ' time');
+// });
 
-child.on('exit:code', function(code) {
-    console.error('Forever detected script exited with code ' + code);
-});
+// child.on('exit:code', function(code) {
+//     console.error('Forever detected script exited with code ' + code);
+// });
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
@@ -80,7 +80,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(80,'159.89.167.8' ,function (){
+var server = app.listen(5000,'localhost' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
@@ -481,7 +481,7 @@ app.post('/addWorkExData',(request,response)=>{
                 else{
                     console.log(resultse)
       
-                    response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
+                    response.send({uid:uid,redirectUrl: "/lumino/salaryalc.html"} );
                     insertcoinsIssued(ciid,request.body.uid,resultse)
 
                 }
@@ -1048,6 +1048,30 @@ app.post('/getMarksheet',(request,response)=>{
         })
     })
 
+    //posting jobboard data 
+
+    
+    app.post('/addJobBoardData',(request,response)=>{
+        console.log("Job titles testting in index.js file");
+        console.log("hello",JSON.stringify(request.body));
+        var sql = "INSERT INTO  job_Board (ref_user_id,company_id,job_title_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date) VALUES ('"+request.body.uid+"', (SELECT company_id FROM company_names WHERE companyname ='"+request.body.companyName+"'), (SELECT job_title_id FROM job_titles WHERE job_title_name ='"+request.body.jTitle+"'), (SELECT id FROM cities WHERE name ='"+request.body.location+"'), '"+request.body.experiance+"','"+request.body.jobDetails+"','"+request.body.jobSummary+"','"+request.body.postedDate+"','"+request.body.activeTillDate+"')";
+        console.log(sql);
+        con.query(sql,function(error, results, fields){
+            if (error) 
+            {
+                console.log("############## ERROR ############");
+                response.status(500).send({error:error})
+            }
+            // console.log('The solution is: ', JSON.stringify(results));
+            else{
+                console.log("############## SUCCESS ############");
+                response.send(results);
+                //  response.send({guid:guid,redirectUrl: "/lumino/jobBoard.html"} );
+            }
+        })
+
+    })
+ //// posting job board
 
 
 app.post('/updateMarksheet',(request,response)=>{

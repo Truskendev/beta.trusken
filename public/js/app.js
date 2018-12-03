@@ -294,7 +294,56 @@ function updateProfile() {
 		//Job Board posting  Aravind
 	function loadJobBoardPage(){
 		console.log("Job board testing");
-		console.log("city Name :->",$('#city').val());
+
+		if($('#jobTitle').val()==''){
+			alert("Please Enter Job Title");
+			document.getElementById('jobTitle').focus();
+			return false;
+		}
+
+		
+		if($('#jobPostcompanyName').val()==''){
+			alert("Please Enter Company Name");
+			document.getElementById('jobPostcompanyName').focus('jobPostcompanyName');
+			return false;
+		}
+		
+		if($('#city').val()==''){
+			alert("Please Enter Location Name");
+			document.getElementById('city').focus('city');
+			return false;
+		}
+
+
+		if($('#experiance').val()=='year'){
+			alert("Please Enter Your Experience");
+			document.getElementById('experiance').focus('experiance');
+			return false;
+		}
+
+		if($('#jobSummary').val()==''){
+			alert("Please Enter Job Summary ");
+			document.getElementById('jobSummary').focus('jobSummary');
+			return false;
+		}
+
+		if($('#jobDetails').val()==''){
+			alert("Please Enter Job Details ");
+			document.getElementById('jobDetails').focus('jobDetails');
+			return false;
+		}
+
+		if($('#postedDate').val()==''){
+			alert("Please Post Today's Date ");
+			document.getElementById('postedDate').focus('postedDate');
+			return false;
+		}
+
+		if($('#activeTillDate').val()==''){
+			alert("Please Enter Job Details ");
+			document.getElementById('activeTillDate').focus('activeTillDate');
+			return false;
+		}
 
 
 		let Lscompanynames = localStorage.getItem('companynames');
@@ -311,10 +360,9 @@ function updateProfile() {
 			jTitle: $('#jobTitle').val(),
 			companyName: $('#jobPostcompanyName').val(),
 			location: $('#city').val(),
-			experiance: $('#experiance').val(),
+			experiance: $('#experiance').val(),		
 			jobSummary: $('#jobSummary').val(),
 			jobDetails: $('#jobDetails').val(),
-			jobSummary: $('#jobSummary').val(),
 			postedDate: $('#postedDate').val(),
 			activeTillDate: $('#activeTillDate').val(),
 			uid: window.location.href.split('?')[1]
@@ -399,10 +447,8 @@ function updateProfile() {
 	}
 
 	function search(){
-	console.log($('#skills').val());
-	console.log($('#city').val());
 
-				let jobSearchedData= {
+		let jobSearchedData= {
 			jTitle: $('#skills').val(),
 			location: $('#city').val()
 		}
@@ -550,8 +596,8 @@ function addWorkex(expCount) {
 			managerEmail: $('#managerEmail' + c).val(),
 			empdesc: $('#empdesc' + c).val(),
 			city: $('#city' + c).val(),
-			state: $('#state' + c).val(),
-			country: $('#country' + c).val(),
+			// state: $('#state' + c).val(),
+			// country: $('#country' + c).val(),
 			alias: $('#alias' + c).val(),
 			selectedworkexp: selectedworkexp,
 			uid: window.location.href.split('?')[1],
@@ -562,7 +608,7 @@ function addWorkex(expCount) {
 
 
 
-		if ((workData[c]['companyName'].length > 1) && (workData[c]['workstartYear'].length > 1) && (workData[c]['workTitle'].length > 1) && (workData[c]['city'].length > 1) && (workData[c]['state'].length > 1) && (workData[c]['country'].length > 1)) {
+		if ((workData[c]['companyName'].length > 1) && (workData[c]['workstartYear'].length > 1) && (workData[c]['workTitle'].length > 1) && (workData[c]['city'].length > 1)) {
 
 			$('#forgot-form').modal('show');
 			setTimeout(function () { $('#forgot-form').modal('hide'); }, 4000);
@@ -911,9 +957,9 @@ function checkEduFields(event, cT) {
 
 			if ((eduData[c]['degreeCertificate'].length > 1)) {
 
-	if ((eduData[c]['city'].length > 1)) {
-						if ((eduData[c]['state'].length > 1)) {
-							if ((eduData[c]['country'].length > 1)) {
+				if ((eduData[c]['city'].length > 1)) {
+						// if ((eduData[c]['state'].length > 1)) {
+						// 	if ((eduData[c]['country'].length > 1)) {
 								if ((eduData[c]['edustartYear'].length > 3)&&(eduData[c]['edustartYear'].length < 5) ) {
 									if ((eduData[c]['eduEndYear'].length > 3)&&(eduData[c]['eduEndYear'].length < 5) ) {
 										if (eduData[c]['edustartYear']<eduData[c]['eduEndYear']) {
@@ -936,20 +982,13 @@ function checkEduFields(event, cT) {
 				} else {
 					alert("Please enter the country name")
 				}
-			} else {
-				alert("Please enter the Degree")
-			}
-		}
-		else {
-			alert("Please enter the Institution name")
-		}
-
-
-
-
-
-
-
+		// 	} else {
+		// 		alert("Please enter the Degree")
+		// 	}
+		// }
+		// else {
+		// 	alert("Please enter the Institution name")
+		// }
 	}
 }
 
