@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html style=" overflow-x: hidden;">
 
-				<head>
-					<meta charset="utf-8">
-					<meta name="viewport" content="width=device-width, initial-scale=1">
-					<title>Trusken - Salary Compare Tool</title>
-					<link href="css/bootstrap.min.css" rel="stylesheet">
-					<link href="css/font-awesome.min.css" rel="stylesheet">
-					<link href="css/datepicker3.css" rel="stylesheet">
-					<link href="css/styles.css" rel="stylesheet">
-					<link rel="icon" href="../images/tts.png">
-					
-					<!--Custom Font-->
-					<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
-					<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Trusken - JobBoard | Apply for job | Refer A Job</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/datepicker3.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+	<link rel="icon" href="../images/tts.png">
 
-					<style>
-						#container {
+	<!--Custom Font-->
+	<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
+	<!-- <script src="js/html5shiv.js"></script> -->
+	<script src="js/respond.min.js"></script>
+
+	<style>
+		.customers {
+                /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            .customers td, .customers th {
+                border: 1px solid #ddd;
+                padding: 5px;
+            }
+            
+            .customers tr:nth-child(even){background-color: #ffffff;}
+            
+            /* .customers tr:hover {background-color: #ddd;} */
+            
+            .customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #00c6d7;
+                color: white;
+            }
+            .dropdown:hover {  
+    color:#000!important;
+}
+            </style>
+
+	<style>
+		#container {
 							width: 200px;
 							height: 100px;
 							color:#000;
@@ -54,13 +85,14 @@
 						}
 					
 					</style>
-				</head>
+</head>
 
 <body style="background-color: #ffffff;">
 	<nav class="navbar navbar-custom navbar-fixed-top" style="background-color:#fff;" role="navigation">
 		<div class="container-fluid card3">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" onclick="openNav()" style="background-color: #0B4CFF" 	><span class="sr-only">Toggle navigation</span>
+				<button type="button" class="navbar-toggle collapsed" onclick="openNav()" style="background-color: #0B4CFF"><span
+					 class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span></button>
@@ -89,25 +121,29 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-top-links navbar-right coiner">
-					
+
 					<li class="dropdown " style="margin-left:-880px; ">
-						<div class="row" style="text-align: center" >
-								
-								<div class="col-md-3" style="display: flex; justify-content: center; " >
-									<div class="coin"></div>	<div class="coin"></div>	<div class="coin"></div>
-								</div>
-								<div class="col-md-6 earn" >
+						<div class="row" style="text-align: center">
+
+							<div class="col-md-3" style="display: flex; justify-content: center; ">
+								<div class="coin"></div>
+								<div class="coin"></div>
+								<div class="coin"></div>
+							</div>
+							<div class="col-md-6 earn">
 								<b id="userNameDisplay"></b> you earned <b id="qweer"></b>
-								</div>
-								<div class="col-md-3" id="coin" style="display: flex; justify-content: center;">
-										<div class="coin"></div><div class="coin"></div><div class="coin"></div>
-								</div>
-								
+							</div>
+							<div class="col-md-3" id="coin" style="display: flex; justify-content: center;">
+								<div class="coin"></div>
+								<div class="coin"></div>
+								<div class="coin"></div>
+							</div>
+
 						</div>
-							
-							
-							<!-- <div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/l0ExhcMymdL6TrZ84" width="100%" height="60%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p class="glow" style="margin-top:-60px;"><a href="https://giphy.com/gifs/funny-party-l0ExhcMymdL6TrZ84"><b id="userNameDisplay"></b> Coins earned<b id="qweer"></b></a></p> -->
-	
+
+
+						<!-- <div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/l0ExhcMymdL6TrZ84" width="100%" height="60%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p class="glow" style="margin-top:-60px;"><a href="https://giphy.com/gifs/funny-party-l0ExhcMymdL6TrZ84"><b id="userNameDisplay"></b> Coins earned<b id="qweer"></b></a></p> -->
+
 					</li>
 				</ul>
 			</div>
@@ -116,35 +152,41 @@
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<div class="profile-sidebar">
 				<div class="profile-usertitle">
-						<div class="profile-usertitle-name" id="userNameDispl">Username</div>
+					<div class="profile-usertitle-name" id="userNameDispl">Username</div>
 				</div>
 				<div class="clear"></div>
 			</div>
 			<div class="divider"></div>
 			<!-- <a class="btn" onclick="$('#sidebar-collapse').fadeOut()">&nbsp;&nbsp;<em class="fa fa-navicon" style="font-size:20px;" ></em>	</a>		 -->
 			<ul class="nav menu">
-					<!-- <li><a href=""><em class="fa fa-gamepad">&nbsp;</em> Fun Zone</a></li> -->
-		
-					<li class="pointer"  ><a style="font-size:16px; font-weight:400"  onclick="redirCompSalary(window.location.href.split('?')[1])"><em ><img src="images/comapre.png" style="width:35px;height:35px;"> </em>
-							Compare Salary</a></li>
-					<!-- <li><a  onclick="redirtricia(window.location.href.split('?')[1])"><em class="fa fa-eercast">&nbsp;</em> Trivia Zone</a></li> -->
-					<li class="pointer" ><a style="font-size:16px; font-weight:400" onclick="redirtrust(window.location.href.split('?')[1])"><em ><img src="images/itrust.png" style="width:35px;height:35px;"> </em> iTrust</a></li>
-					<!-- <li ><a  onclick="redirbadg(window.location.href.split('?')[1])"><em class="fa fa-eercast">&nbsp;</em> My Badges</a></li>
+				<!-- <li><a href=""><em class="fa fa-gamepad">&nbsp;</em> Fun Zone</a></li> -->
+
+				<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirCompSalary(window.location.href.split('?')[1])"><em><img
+							 src="images/comapre.png" style="width:35px;height:35px;"> </em>
+						Compare Salary</a></li>
+				<!-- <li><a  onclick="redirtricia(window.location.href.split('?')[1])"><em class="fa fa-eercast">&nbsp;</em> Trivia Zone</a></li> -->
+				<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirtrust(window.location.href.split('?')[1])"><em><img
+							 src="images/itrust.png" style="width:35px;height:35px;"> </em> iTrust</a></li>
+				<!-- <li ><a  onclick="redirbadg(window.location.href.split('?')[1])"><em class="fa fa-eercast">&nbsp;</em> My Badges</a></li>
 					<li><a onclick="redir(window.location.href.split('?')[1])"><em class="fa fa-briefcase">&nbsp;</em> Employment</a></li> -->
-					<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirEducation(window.location.href.split('?')[1])"><em ><img src="images/dashboard.png" style="width:35px;height:35px;"> </em>
+				<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirEducation(window.location.href.split('?')[1])"><em><img
+							 src="images/dashboard.png" style="width:35px;height:35px;"> </em>
 						My Dashboard</a></li>
-					<li class="pointer" ><a style="font-size:16px; font-weight:400" onclick="redirProfile(window.location.href.split('?')[1])"><em><img src="images/jobs.png" style="width:35px;height:35px;"> </em> My Profile</a></li>
-                    <li class="active pointer" ><a style="font-size:16px; font-weight:400" onclick="redirJobBoard(window.location.href.split('?')[1])"><em><img src="images/jobs.png" style="width:35px;height:35px;"> </em> Job Board</a></li>
-					<li class="pointer"><a style="font-size:16px; font-weight:400" href="/logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
-				</ul>
-	
-		  </div>
+				<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirProfile(window.location.href.split('?')[1])"><em><img
+							 src="images/jobs.png" style="width:35px;height:35px;"> </em> My Profile</a></li>
+				<li class="active pointer"><a style="font-size:16px; font-weight:400" onclick="redirJobBoard(window.location.href.split('?')[1])"><em><img
+							 src="images/jobs.png" style="width:35px;height:35px;"> </em> Job Board</a></li>
+				<li class="pointer"><a style="font-size:16px; font-weight:400" href="/logout"><em class="fa fa-power-off">&nbsp;</em>
+						Logout</a></li>
+			</ul>
+
+		</div>
 	</nav>
 
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-3 sidebar card3" >
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-3 sidebar card3">
 		<div class="profile-sidebar">
 			<div class="profile-usertitle">
-					<div class="profile-usertitle-name" id="userNameDispla">Username</div>
+				<div class="profile-usertitle-name" id="userNameDispla">Username</div>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -152,105 +194,113 @@
 
 		<ul class="nav menu">
 
-				<li class="pointer"  ><a style="font-size:16px; font-weight:400"  onclick="redirCompSalary(window.location.href.split('?')[1])"><em ><img src="images/comapre.png" style="width:35px;height:35px;"> </em>
-						Compare Salary</a></li>
-				<li class="pointer" ><a style="font-size:16px; font-weight:400" onclick="redirtrust(window.location.href.split('?')[1])"><em ><img src="images/itrust.png" style="width:35px;height:35px;"> </em> iTrust</a></li>
-				<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirEducation(window.location.href.split('?')[1])"><em ><img src="images/dashboard.png" style="width:35px;height:35px;"> </em>
+			<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirCompSalary(window.location.href.split('?')[1])"><em><img
+						 src="images/comapre.png" style="width:35px;height:35px;"> </em>
+					Compare Salary</a></li>
+			<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirtrust(window.location.href.split('?')[1])"><em><img
+						 src="images/itrust.png" style="width:35px;height:35px;"> </em> iTrust</a></li>
+			<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirEducation(window.location.href.split('?')[1])"><em><img
+						 src="images/dashboard.png" style="width:35px;height:35px;"> </em>
 					My Dashboard</a></li>
-				<li class="pointer" ><a style="font-size:16px; font-weight:400" onclick="redirProfile(window.location.href.split('?')[1])"><em><img src="images/jobs.png" style="width:35px;height:35px;"> </em> My Profile</a></li>
-                <li class="active pointer" ><a style="font-size:16px; font-weight:400" onclick="redirJobBoard(window.location.href.split('?')[1])"><em><img src="images/jobs.png" style="width:35px;height:35px;"> </em> Job Board</a></li>
-				<li class="pointer"><a style="font-size:16px; font-weight:400" href="/logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
-			</ul>
+			<li class="pointer"><a style="font-size:16px; font-weight:400" onclick="redirProfile(window.location.href.split('?')[1])"><em><img
+						 src="images/jobs.png" style="width:35px;height:35px;"> </em> My Profile</a></li>
+			<li class="active pointer"><a style="font-size:16px; font-weight:400" onclick="redirJobBoard(window.location.href.split('?')[1])"><em><img
+						 src="images/jobs.png" style="width:35px;height:35px;"> </em> Job Board</a></li>
+			<li class="pointer"><a style="font-size:16px; font-weight:400" href="/logout"><em class="fa fa-power-off">&nbsp;</em>
+					Logout</a></li>
+		</ul>
 	</div>
-	
 
-	<div class="col-sm-9 col-sm-offset-3 col-lg-offset-3 main"  >
-		
-		<div class="row" style="background-color:#ffffff;" >
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-offset-3 main">
+
+		<div class="row" style="background-color:#ffffff;">
 
 			<br><br>
 
-			<div class="col-md-12 " style="height:100%; background-color:#ffffff; " >
-					<div class="row coinToMobile" style="text-align: center;" >
-								
-							<div class="col-md-3" style="display: flex; justify-content: center; " >
-								<div class="coin"></div>	<div class="coin"></div>	<div class="coin"></div>
+			<div class="col-md-12 " style="height:100%; background-color:#ffffff; ">
+				<div class="row coinToMobile" style="text-align: center;">
+
+					<div class="col-md-3" style="display: flex; justify-content: center; ">
+						<div class="coin"></div>
+						<div class="coin"></div>
+						<div class="coin"></div>
+					</div>
+					<div class="col-md-6 earn">
+						<b id="userNameDis"></b> you earned <b id="qweer1"></b>
+					</div>
+					<div class="col-md-3" id="coin" style="display: flex; justify-content: center;">
+						<div class="coin"></div>
+						<div class="coin"></div>
+						<div class="coin"></div>
+					</div>
+
+				</div>
+
+				<br><br>
+				<div class="col-md-8">
+					<div class="panel panel-default card3">
+						<div class="panel-heading">Job Board</div>
+						<div class="panel-body">
+							<form role="form">
+								<div class="form-group">
+									<input class="form-control" id="skills" type="search" list="jTitles" placeholder="Skills, Job Title" title="Search for Jobtitles">
+									<datalist id="jTitles" name="jTitle">
+									</datalist>
+								</div>
+								<div class="form-group">
+									<input class="form-control" id="city" type="search" list="allCities" placeholder="city (or) location" title="Search for Location">
+									<datalist id="allCities" name="city">
+									</datalist>
+								</div>
+							</form>
+							<div>
+								<button type="button" onclick="search()" class="btn btn-primary">SEARCH</button>
 							</div>
-							<div class="col-md-6 earn" >
-							<b id="userNameDis"></b> you earned <b id="qweer1"></b>
-							</div>
-							<div class="col-md-3" id="coin" style="display: flex; justify-content: center;">
-									<div class="coin"></div><div class="coin"></div><div class="coin"></div>
-							</div>
-							
 						</div>
-					
-						<br><br>
-						<div class="col-md-8">
-							<div class="panel panel-default card3" >
-								<div class="panel-heading">Job Board</div>
-									<div class="panel-body">
-										<form role="form">
-												<div class="form-group">
-													<input class="form-control" id="skills" type="search" list="jTitles" placeholder="Skills, Job Title" title="Search for Jobtitles">
-													<datalist   id="jTitles" name="jTitle">
-													</datalist>	
-												</div>
-												<div class="form-group">
-													<input class="form-control" id="city" type="search" list="allCities" placeholder="city (or) location" title="Search for Location">
-													<datalist   id="allCities" name="city">
-													</datalist>	
-												</div>
-										</form>
-										<div>
-											<button type="button"   onclick="search()" class="btn btn-primary" >SEARCH</button>										
-										</div>
-									</div>
 
-								</div>			
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-1"></div>
+					<div class="col-md-10">
+						<div class="panel panel-default card3">
+							<div class="panel-heading">
+								Job Openings <span class="pull-right"><a class="btn" style="background-color:#1d4590;color:white" onclick="postAjob()">Refer
+										A Job</a></span>
+
 							</div>
-							<a type="button"  class="btn btn-primary" onclick="postAjob()">POST A JOB</a>
-			
+							<div class="panel-body ">
+								<div style="overflow-x:auto;">
+									<table id="jobBoardAppend" class="customers card3">
 
+										<tr>
+											<th>Job Code</th>
+											<th>Posted Date</th>
+											<th>Active Till Date</th>
+											<th>Job Title</th>
+											<th>Job Summary</th>
+											<th>Experience in Years</th>
+											<th>Location</th>
 
-						<div class="row">
-            
-							<div class="col-md-12">
-									<div class="panel panel-default card3">
-										<!-- <div class="panel-heading"> -->
-											<!-- Employment -->
-										 <!-- </div> -->
-									<div class="panel-body1 ">
-									   <div style="overflow-x:auto;">
-											<table id="jobBoardAppend" class="customers card3" style="width: 100%;" height="130px"  cellspacing="5" cellpadding="10">
-												<thead>
-												  <tr>
-												  <th style= "font-size:16px;">Job Code</th>
-												  <th style= "font-size:16px;">Posted Date</th>
-												  <th style=" font-size:16px;">Active Till Date</th>
-												  <th style= "font-size:16px;">Job Title</th>
-												  <th style=" font-size:16px;">Job Summary</th>
-												  <th style=" font-size:16px;">Experience in Years</th>
-												  <th style=" font-size:16px;">Location</th>
-												  </tr>
-												  </thead>
-												  <tbody>
+										</tr>
 
-												  </tbody>
-											</table>
-									   </div>
+									</table>
 								</div>
-
-									</div>
-								</div>
-							 </div>
 							</div>
-				</div>	
-		    </div>
-		   <!--/.row-->
-	    </div>
-	 <!--/.main-->
-</div>
+						</div>
+					</div>
+					<div class="col-md-1"></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--/.row-->
+	</div>
+	<!--/.main-->
+	</div>
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
@@ -260,48 +310,48 @@
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="../js/app.js"></script>
-	
+
 	<script>
-		  window.onload = function () {          
-        };
-		function postAjob(){
-				let uid=window.location.href.split('?')[1];
-						window.location="postjob.html?"+uid;
-			}
+		window.onload = function () {
+		};
+		function postAjob() {
+			let uid = window.location.href.split('?')[1];
+			window.location = "postjob.html?" + uid;
+		}
 
 		$(document).ready(function () {
-			let uid=window.location.href.split('?')[1];
+			let uid = window.location.href.split('?')[1];
 			loadProfilePage(uid);
-			coinsTotal(uid);	
-		// loadCompareSalary(uid);
-			
-		// ############# allJobTitles getting @ Aravind M #############
-		$.post("/getAllJobTitles", function (respons) {
-			// localStorage.setItem("jobtitles",JSON.stringify(respons));
-				respons.forEach((element,index) => {
+			coinsTotal(uid);
+			// loadCompareSalary(uid);
+
+			// ############# allJobTitles getting @ Aravind M #############
+			$.post("/getAllJobTitles", function (respons) {
+				// localStorage.setItem("jobtitles",JSON.stringify(respons));
+				respons.forEach((element, index) => {
 					// console.log("aravind",element)
-					$("#jTitles").append(new Option(element.job_title_name,element.job_title_name))
+					$("#jTitles").append(new Option(element.job_title_name, element.job_title_name))
+				});
 			});
-		});	
 
-		// ############# allJobTitiles getting @ Aravind M #############				
-		
-		// ############# allcompanyName getting @ Aravind M #############
+			// ############# allJobTitiles getting @ Aravind M #############				
+
+			// ############# allcompanyName getting @ Aravind M #############
 
 
-		// ############# allCities getting @ Aravind M #############
-		$.post("/getAllCities", function (respons) {
+			// ############# allCities getting @ Aravind M #############
+			$.post("/getAllCities", function (respons) {
 				// localStorage.setItem("citiess",JSON.stringify(respons));
-				respons.forEach((element,index) => {
+				respons.forEach((element, index) => {
 					// console.log(element)
-					$("#allCities").append(new Option(element.name,element.name)) 
+					$("#allCities").append(new Option(element.name, element.name))
+				});
+
 			});
-		
-		});
-		// ############# allCities getting @ Aravind M #############
+			// ############# allCities getting @ Aravind M #############
 
 			//let uid = window.location.href.split('?')[1];
-		
+
 			// bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 			// bar.text.style.fontSize = '2rem';
 			// bar.text.style.color = '#000';
@@ -310,7 +360,7 @@
 
 		})
 
-    </script>
+	</script>
 
 </body>
 

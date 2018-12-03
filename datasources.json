@@ -1,0 +1,13 @@
+{
+    "my_mysql_db": {
+      "port": 3306,
+      "url": "142.93.218.67",
+      "database": "truskendb",
+      "password": "Authtruskendb@18",
+      "name": "truskendb",
+      "user": "truskendbuser",
+      "connector": "mysql",
+      "connectTimeout": 30000,
+      "acquireTimeout": 20000
+    }
+  }
