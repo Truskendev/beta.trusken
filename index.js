@@ -13,40 +13,40 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // to run app in prod/dev mode
-if(process.env.NODE_ENV === 'production') {
-    app.set('port', 80);
+//if(process.env.NODE_ENV === 'production') {
+  //  app.set('port', 80);
     // additional prod environemtn configuration
-  }
+ // }
 
 // forever service to run app
 
-var forever = require('forever-monitor');
+//var forever = require('forever-monitor');
 
-  var child = new (forever.Monitor)('index.js', {
-        max: 3,
-        silent: true,
-        args: []
-  });
+  //var child = new (forever.Monitor)('index.js', {
+    //    max: 3,
+      //  silent: true,
+        //args: []
+  //});
 
-  child.on('exit', function () {
+  //child.on('exit', function () {
         console.log('index.js has exited after 3 restarts');
-  });
+  //});
 
-  child.start();
+  //child.start();
 
-var child = new (forever.Monitor)('index.js');
+//var child = new (forever.Monitor)('index.js');
 
-child.on('watch:restart', function(info) {
-    console.error('Restaring script because ' + info.file + ' changed');
-});
+//child.on('watch:restart', function(info) {
+  //  console.error('Restaring script because ' + info.file + ' changed');
+//});
 
-child.on('restart', function() {
-    console.error('Forever restarting script for ' + child.times + ' time');
-});
+//child.on('restart', function() {
+  //  console.error('Forever restarting script for ' + child.times + ' time');
+//});
 
-child.on('exit:code', function(code) {
-    console.error('Forever detected script exited with code ' + code);
-});
+//child.on('exit:code', function(code) {
+  //  console.error('Forever detected script exited with code ' + code);
+//});
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
@@ -163,7 +163,7 @@ requestPromiseAPI(requestbody).then((body)=>{
                    email:loginName
                 }
                 console.log('The solution is: ', JSON.stringify(results))
-                if(results.length==1)
+                if(results.length===1)
                 {
                     if(results[0]['wexSubm']==1)
                     {
