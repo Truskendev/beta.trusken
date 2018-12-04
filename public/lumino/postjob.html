@@ -15,7 +15,9 @@
 					<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
 					<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
                     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+					<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+					<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+					<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 					<style>
 						#container {
 							width: 200px;
@@ -159,24 +161,32 @@
 																<option value="4">More than 10 Years</option>
 															</select>
 														</div>
+
+														<div class="form-group">
+															<label>Skills*</label>
+															<input class="form-control" id="skills" type="text" placeholder="Please Enter Your Skills">
+														</div>
 													
 														<div class="form-group">
 															<label>Job Summary*</label>
-															<input class="form-control" id="jobSummary" type="text" placeholder="In less than 75 words ">
+															<input class="form-control" id="jobSummary" type="text" placeholder="In less than 100 words ">
 														</div>
+
 														<div class="form-group">
-																<label>Job Details*</label>
-																<!-- <input class="form-control" id="jobDetails" type="text" placeholder="Job Details"> -->
-																<textarea class="form-control" id="jobDetails" name="textarea" style="width:250px;height:70px;" placeholder="In less than 250 words"></textarea>
-															</div> 
-															<div class="form-group">
-																	<label>Posted Date*</label>
-																	<input class="form-control" id="postedDate" type="text" placeholder="Today's Date">
-																</div>
-																<div class="form-group">
-																		<label>Active-Till-Date*</label>
-																		<input class="form-control" id="activeTillDate" type="text">
-																	</div>
+															<label>Job Details*</label>
+															<!-- <input class="form-control" id="jobDetails" type="text" placeholder="Job Details"> -->
+															<textarea class="form-control" id="jobDetails" name="textarea" style="width:250px;height:70px;" placeholder="In less than 1000 words"></textarea>
+														</div> 
+
+														<div class="form-group">
+															<label>Posted Date*</label>
+															<input class="form-control" id="postedDate" type="text" readonly>
+														</div>
+
+														<div class="form-group">
+															<label>Active-Till-Date*</label>
+															<input class="form-control" id="activeTillDate" type="text" placeholder="Please Enter Expire Date Of This Job">
+														</div>
 														<!-- <button class="btn btn-sm">Submit</button> -->
 														<button class="btn btn-sm btn-warning" type="button" onclick="loadJobBoardPage()">Submit</button>
 	
@@ -274,10 +284,21 @@
 			// bar.text.style.fontSize = '2rem';
 			// bar.text.style.color = '#000';
 			// bar.text.style.marginLeft = '50px';
-
+			
+		
+			$("#postedDate").datepicker({
+				format: 'yyyy/mm/dd',
+				autoclose: true
+			}).datepicker("setDate", new Date());
+			
+		  $('#activeTillDate').datepicker({
+				format: "yyyy/mm/dd",
+				autoclose: true
+			})
 
 		})
 
+		
     </script>
 
 </body>
