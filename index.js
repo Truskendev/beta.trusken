@@ -67,9 +67,9 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
-  user: "trusken123",
-   password: "qwerty1995",
+  host: "142.93.218.67",
+  user: "truskendbuser",
+   password: "Authtruskendb@18",
    database : 'truskendb'
 
 });
@@ -167,15 +167,15 @@ requestPromiseAPI(requestbody).then((body)=>{
                 {
                     if(results[0]['wexSubm']==1)
                     {
-                        if(results[0]['eduSub']==1)
+                        // if(results[0]['eduSub']==1)
                         {
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
                         }
-                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        // return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
-                    return response.redirect('/lumino/addExp.html?'+results[0].user_id)
+                     return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
-                }else{
+                } else{
                     requestData.uri="https://api.linkedin.com/v1/people/~:(id,first-name,email-address,num-connections,formatted-name,site-standard-profile-request,api-standard-profile-request,public-profile-url,num-connections-capped,current-share,phonetic-first-name,phonetic-last-name,formatted-phonetic-name,last-name,headline,picture-url,industry,location,summary,specialties,positions:(id,title,summary,start-date,end-date,is-current,company:(id,name,type,size,industry,ticker)),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes),associations,interests,num-recommenders,date-of-birth,publications:(id,title,publisher:(name),authors:(id,name),date,url,summary),patents:(id,title,summary,number,status:(id,name),office:(name),inventors:(id,name),date,url),languages:(id,language:(name),proficiency:(level,name)),skills:(id,skill:(name)),certifications:(id,name,authority:(name),number,start-date,end-date),courses:(id,name,number),recommendations-received:(id,recommendation-type,recommendation-text,recommender),honors-awards,three-current-positions,three-past-positions,volunteer)?format=json"
                     requestPromiseAPI(requestData)
                     .then((body)=>{
