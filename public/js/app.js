@@ -294,7 +294,7 @@ function updateProfile() {
 		//Job Board posting  Aravind
 	function loadJobBoardPage(){
 		console.log("Job board testing");
-
+		console.log("skills testing",$('#skills').val());
 		if($('#jobTitle').val()==''){
 			alert("Please Enter Job Title");
 			document.getElementById('jobTitle').focus();
@@ -304,44 +304,50 @@ function updateProfile() {
 		
 		if($('#jobPostcompanyName').val()==''){
 			alert("Please Enter Company Name");
-			document.getElementById('jobPostcompanyName').focus('jobPostcompanyName');
+			// document.getElementById('jobPostcompanyName').focus('jobPostcompanyName');
 			return false;
 		}
 		
 		if($('#city').val()==''){
 			alert("Please Enter Location Name");
-			document.getElementById('city').focus('city');
+			// document.getElementById('city').focus('city');
 			return false;
 		}
 
 
 		if($('#experiance').val()=='year'){
 			alert("Please Enter Your Experience");
-			document.getElementById('experiance').focus('experiance');
+			// document.getElementById('experiance').focus('experiance');
+			return false;
+		}
+
+		if($('#skills').val()==''){
+			alert("Please Enter Your Skills");
+			// document.getElementById('experiance').focus('experiance');
 			return false;
 		}
 
 		if($('#jobSummary').val()==''){
 			alert("Please Enter Job Summary ");
-			document.getElementById('jobSummary').focus('jobSummary');
+			// document.getElementById('jobSummary').focus('jobSummary');
 			return false;
 		}
 
 		if($('#jobDetails').val()==''){
 			alert("Please Enter Job Details ");
-			document.getElementById('jobDetails').focus('jobDetails');
+			// document.getElementById('jobDetails').focus('jobDetails');
 			return false;
 		}
 
 		if($('#postedDate').val()==''){
 			alert("Please Post Today's Date ");
-			document.getElementById('postedDate').focus('postedDate');
+			// document.getElementById('postedDate').focus('postedDate');
 			return false;
 		}
 
 		if($('#activeTillDate').val()==''){
 			alert("Please Enter Job Details ");
-			document.getElementById('activeTillDate').focus('activeTillDate');
+			// document.getElementById('activeTillDate').focus('activeTillDate');
 			return false;
 		}
 
@@ -360,7 +366,8 @@ function updateProfile() {
 			jTitle: $('#jobTitle').val(),
 			companyName: $('#jobPostcompanyName').val(),
 			location: $('#city').val(),
-			experiance: $('#experiance').val(),		
+			experiance: $('#experiance').val(),
+			skills: $('#skills').val(),		
 			jobSummary: $('#jobSummary').val(),
 			jobDetails: $('#jobDetails').val(),
 			postedDate: $('#postedDate').val(),
@@ -416,6 +423,8 @@ function updateProfile() {
 		$.post("/addJobBoardData", jobBoardData,function (response) {
 			console.log("@@@",response);
 			console,log("#######",jobBoardData);
+			// userID = response.guid
+			// window.location = response.redirectUrl + '?' + userID
 			// if (response.redirectFlag === true) {
 			// 	window.location.href = '/'
 			// }
@@ -449,14 +458,31 @@ function updateProfile() {
 	function search(){
 
 		let jobSearchedData= {
-			jTitle: $('#skills').val(),
+			jTitle: $('#inputJobTitle').val(),
 			location: $('#city').val()
 		}
-		if(jobSearchedData.jTitle!=''){
-			if(jobSearchedData.location!=''){
+
+		if($('#inputJobTitle').val()==''){
+			alert("Please Enter Job Title ");
+			// document.getElementById('skills').focus('skills');
+			return false;
+		}
+
+		if($('#city').val()==''){
+			alert("Please Enter Location ");
+			// document.getElementById('city').focus('city');
+			return false;
+		}
+
+
 				$.post("/getJobDetailsData", jobSearchedData, function (response) {
 					console.log("fayaz",response);
 					//log(response[0]);
+					if(response.length>0){
+						alert("You Successfully Got The Job Board Data");						
+					}else{
+						alert("No Data is available with your Inputs, Please Try again with new Inputs ");
+					}
 		
 					response.forEach((element) => {
 					
@@ -496,12 +522,7 @@ function updateProfile() {
 						log("finished");
 					});
 			
-		}else{
-			alert("Please Enter City Name");
-		}
-		}else{
-			alert("Please Enter Job Title");
-		}
+		
 			
 	}
 	// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
