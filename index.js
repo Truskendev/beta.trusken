@@ -12,13 +12,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cookieParser());
 
-to run app in prod/dev mode
+// to run app in prod/dev mode
 if(process.env.NODE_ENV === 'production') {
     app.set('port', 80);
     // additional prod environemtn configuration
   }
 
-forever service to run app
+// forever service to run app
 
 var forever = require('forever-monitor');
 
@@ -59,7 +59,7 @@ app.use(session({
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
     if (req.cookies.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');
+        res.clearCookie('user_sid');        
     }
     next();
 });
@@ -78,9 +78,9 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
-
+ 
 var created=new Date();
-var server = app.listen(80,'159.89.167.8' ,function (){
+var server = app.listen(80,'158.89.167.8' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
@@ -113,7 +113,7 @@ var sessionChecker = (req, res, next) => {
 
     } else {
         next();
-    }
+    }    
 };
 // middleware function to check for logged-in users
 var PostLoginChecker = (req, res, next) => {
@@ -122,9 +122,9 @@ var PostLoginChecker = (req, res, next) => {
     }
     else {
         res.send({redirectFlag:true})
-    }
+    }   
 };
-app.get('/', sessionChecker,function (request, response) {
+app.get('/', sessionChecker,function (request, response) {  
      response.sendFile( __dirname + "/public/" + "inde.html" );
 });
 app.get('/linkedinSignin',function(request,response){
@@ -143,27 +143,27 @@ requestPromiseAPI(requestbody).then((body)=>{
     var requestData={
         'url':"https://api.linkedin.com/v1/people/~:(id,email-address)?format=json",
        'headers':
-       {
+       { 
            'Authorization':"Bearer "+accessToken
         }
     }
     requestPromiseAPI(requestData).then((body)=>{
-
-        var loginName=JSON.parse(body)['emailAddress']
+       
+        var loginName=JSON.parse(body)['emailAddress'] 
         var sql ="SELECT user_id,wexSubm,eduSub from user where email_id='"+loginName+"'"
         con.query(sql, function (error, results, fields) {
-            if (error)
+            if (error) 
             {
                 response.status(500).send({error:error})
             }
-            //
+            // 
             else
             {
                 request.session.user={
                    email:loginName
                 }
                 console.log('The solution is: ', JSON.stringify(results))
-                if(results.length===1)
+                if(results.length==1)
                 {
                     if(results[0]['wexSubm']==1)
                     {
@@ -182,7 +182,7 @@ requestPromiseAPI(requestbody).then((body)=>{
                         processLinkedInData(body)
 
                         let linkedinData=JSON.parse(body)
-                        let email_id=linkedinData['emailAddress']
+                        let email_id=linkedinData['emailAddress']                    
                         response.redirect('/refferalsignup.html?'+JSON.parse(body)['id'])
                     })
                     .catch((error)=>{
@@ -211,7 +211,7 @@ requestPromiseAPI(requestbody).then((body)=>{
     //         var requestData={
     //             'url':"https://api.linkedin.com/v1/people/~:(id,email-address)?format=json",
     //            'headers':
-    //            {
+    //            { 
     //                'Authorization':"Bearer "+accessToken
     //             }
     //         }
@@ -221,14 +221,14 @@ requestPromiseAPI(requestbody).then((body)=>{
     //             }else
     //             {
     //                 console.log(body)
-    //                 var loginName=JSON.parse(body)['emailAddress']
+    //                 var loginName=JSON.parse(body)['emailAddress'] 
     //                 var sql ="SELECT user_id from user where email_id='"+loginName+"'"
     //                 con.query(sql, function (error, results, fields) {
-    //                     if (error)
+    //                     if (error) 
     //                     {
     //                         response.status(500).send({error:error})
     //                     }
-    //                     //
+    //                     // 
     //                     else
     //                     {
     //                         console.log('The solution is: ', JSON.stringify(results))
@@ -251,9 +251,9 @@ requestPromiseAPI(requestbody).then((body)=>{
 app.get('/verification', function (request, response) {
   var uid=request.query.uid
   var sql = "UPDATE user SET is_verified=1 where user_id='"+uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500)
         }
@@ -276,18 +276,18 @@ app.post('/registerNewUser',sessionChecker,(request,response)=>{
     let guid=guidGenerator()
     let ciid=guidGeneratorCoin()
     var sql = "INSERT INTO user (user_id,user_name, email_id,password,created_at,last_updated,created_by) VALUES ('"+guid+"','"+request.body.regUsr+"', '"+request.body.regEmail+"','"+request.body.regPass+"','"+created+"','"+created+"','"+guid+"')";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
-
+           
             var sql1="select * from coins_allocation where activity_type='SIGNUP'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
@@ -314,8 +314,8 @@ app.post('/registerNewUser',sessionChecker,(request,response)=>{
                 {
                     console.log("mail failed")
                 }
-            })
-        }
+            })  
+        }  
       })
 })
 
@@ -323,15 +323,15 @@ function insertcoinsIssued(ciid,guid,resultse){
 
  var sql2="insert into coins_issued_details (coins_issued_details_id,user_id,coins_earned,issued_date,created_at,created_by,last_updated,coins_alloc_id) values('"+ciid+"','"+guid+"', '"+resultse[0].coins_alloc+"','"+created+"','"+created+"','"+guid+"','"+created+"', '"+resultse[0].coins_alloc_id+"')";
             con.query(sql2, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
                 else{
                     console.log(resultse)
-
-
+      
+                    
                 }
             })
     }
@@ -341,9 +341,9 @@ app.post('/getProfileData',PostLoginChecker,(request,response)=>{
     console.log(JSON.stringify(request.body))
    // let guid=guidGenerator()
     var sql = "select * from user where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -352,17 +352,17 @@ app.post('/getProfileData',PostLoginChecker,(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send(results);
         }
-
+        
       })
-})
+})  
 
 app.post('/updateProfileData',(request,response)=>{
     console.log(JSON.stringify(request.body))
-
+    
     var sql = "UPDATE user SET user_name = '"+request.body.fullName+"',email_id = '"+request.body.userEmail+"',phone_number = '"+request.body.userNumber+"' WHERE user_id = '"+request.body.uid+"';";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -371,14 +371,14 @@ app.post('/updateProfileData',(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send({guid:request.body.uid,redirectUrl: "/lumino/dashb.html"} );
         }
-
+        
       })
-})
+})  
 
 app.get('/logout',(req,res)=>{
     if (req.cookies.user_sid && req.session.user) {
         res.clearCookie('user_sid');
-        res.sendFile( __dirname + "/public/" + "inde.html" );
+        res.sendFile( __dirname + "/public/" + "inde.html" );       
     }
 })
 
@@ -399,18 +399,18 @@ app.post('/loginUser',sessionChecker,(request,response)=>{
         response.status(500).send(error)
     })
 
-})
+})  
 
 function loginChecks(loginName,loginPass){
  return new Promise((resolve,reject)=>{
     var sql ="SELECT user_id,is_verified from user where email_id='"+loginName+"' AND password='"+loginPass+"'"
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             //response.status(500).send({error:error})
             reject({error:error})
         }
-        //
+        // 
         else
         {
             console.log('The solution is: ', JSON.stringify(results))
@@ -423,24 +423,24 @@ function loginChecks(loginName,loginPass){
                 //response.status(200).send(results[0])
                 var sql1 ="SELECT * from workex where user_id='"+results[0].user_id+"'"
                 con.query(sql1, function (error, results1, fields) {
-                        if (error)
+                        if (error) 
                         {
                             //response.status(500).send({error:error})
                             reject({error:error})
                         }
                         else{
                            if(results1.length!=0) {
-
+                           
                             //return response.send({guid:results[0].user_id,redirectUrl: "/referral_landing.html"} );
                             resolve({guid:results[0].user_id,redirectUrl: "/referral_landing.html"})
                            }else{
                             resolve({guid:results[0].user_id,redirectUrl: "/refferalsignup.html"})
                             //return response.send({guid:results[0].user_id,redirectUrl: "/refferalsignup.html"} );
                            }
-
+                            
                         }
                     })
-
+                
             }
             else
             {
@@ -448,7 +448,7 @@ function loginChecks(loginName,loginPass){
                 //response.status(200).send({status:200,user_id:"User not found!"})
             }
         }
-
+        
       })
     })
 
@@ -460,27 +460,27 @@ app.post('/addWorkExData',(request,response)=>{
     let guid=request.body.expID==='undefined'? guidGeneratorWork():request.body.expID
     uid=request.body.uid
     var sql = "INSERT INTO workex (exp_id,job_title_id, start_date,end_date,emp_num,mgr_name,mgr_email,desc_work,org_id,emp_type_id,user_id,alias_name,state,country,city) VALUES ('"+guid+"','"+request.body.workTitle+"', '"+request.body.workstartYear+"','"+request.body.workEndYear+"','"+request.body.employeeNumber+"','"+request.body.managerNumber+"','"+request.body.managerEmail+"','"+request.body.empdesc+"','"+request.body.companyName+"','"+request.body.selectedworkexp+"','"+request.body.uid+"','"+request.body.alias+"','"+request.body.state+"','"+request.body.country+"','"+request.body.city+"') ON DUPLICATE KEY UPDATE job_title_id='"+request.body.workTitle+"', start_date='"+request.body.workstartYear+"',end_date='"+request.body.workEndYear+"',emp_num='"+request.body.employeeNumber+"',mgr_name='"+request.body.managerNumber+"',mgr_email='"+request.body.managerEmail+"',desc_work='"+request.body.empdesc+"', org_id='"+request.body.companyName+"' , emp_type_id='"+request.body.selectedworkexp+"', alias_name='"+request.body.alias+"', state='"+request.body.state+"', country='"+request.body.country+"', emp_type_id='"+request.body.city+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
             //response.status(200).send({message:'Inserted'})
-
+            
 
               var sql1="select * from coins_allocation where activity_type='ADD_WORKEX'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
                 else{
                     console.log(resultse)
-
+      
                     response.send({uid:uid,redirectUrl: "/lumino/salaryalc.html"} );
                     insertcoinsIssued(ciid,request.body.uid,resultse)
 
@@ -488,11 +488,11 @@ app.post('/addWorkExData',(request,response)=>{
             })
 
         }
-
+        
     })
       var sq="update user set wexSubm=1 where user_id='"+uid+"' and wexSubm=0"
       con.query(sq, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -502,10 +502,10 @@ app.post('/addWorkExData',(request,response)=>{
            // return response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
            console.log("Submitted!")
         }
-
+        
       })
 
-    })
+    })  
 
 
 
@@ -515,27 +515,27 @@ app.post('/addWorkExDataa',(request,response)=>{
     let guid=request.body.expID==='undefined'? guidGeneratorWork():request.body.expID
     uid=request.body.uid
     var sql = "INSERT INTO workex (exp_id,job_title_id, start_date,end_date,emp_num,mgr_name,mgr_email,desc_work,org_id,emp_type_id,user_id,alias_name,state,country,city) VALUES ('"+guid+"','"+request.body.workTitle+"', '"+request.body.workstartYear+"','"+request.body.workEndYear+"','"+request.body.employeeNumber+"','"+request.body.managerNumber+"','"+request.body.managerEmail+"','"+request.body.empdesc+"','"+request.body.companyName+"','"+request.body.selectedworkexp+"','"+request.body.uid+"','"+request.body.alias+"','"+request.body.state+"','"+request.body.country+"','"+request.body.city+"') ON DUPLICATE KEY UPDATE job_title_id='"+request.body.workTitle+"', start_date='"+request.body.workstartYear+"',end_date='"+request.body.workEndYear+"',emp_num='"+request.body.employeeNumber+"',mgr_name='"+request.body.managerNumber+"',mgr_email='"+request.body.managerEmail+"',desc_work='"+request.body.empdesc+"', org_id='"+request.body.companyName+"' , emp_type_id='"+request.body.selectedworkexp+"', alias_name='"+request.body.alias+"', state='"+request.body.state+"', country='"+request.body.country+"', emp_type_id='"+request.body.city+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
             //response.status(200).send({message:'Inserted'})
-
+            
 
               var sql1="select * from coins_allocation where activity_type='ADD_WORKEX'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
                 else{
                     console.log(resultse)
-
+      
                     response.send({uid:uid,redirectUrl: "/lumino/dashb.html"} );
                     insertcoinsIssued(ciid,request.body.uid,resultse)
 
@@ -543,11 +543,11 @@ app.post('/addWorkExDataa',(request,response)=>{
             })
 
         }
-
+        
       })
       var sq="update user set wexSubm=1 where user_id='"+uid+"' and wexSubm=0"
       con.query(sq, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -557,33 +557,33 @@ app.post('/addWorkExDataa',(request,response)=>{
            // return response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
            console.log("Submitted!")
         }
-
+        
       })
 
-})
+})  
 
 
 app.post('/addEducationData',(request,response)=>{
     let ciid=guidGeneratorCoin();
     console.log(JSON.stringify(request.body))
     let guid=request.body.eduID==='undefined'? guidGeneratorEducation():request.body.eduID
-
+    
    uid=request.body.uid
     var sql = "INSERT INTO education (edu_id,org_id,Degree, start_year,end_year,specialization,mem_num,user_id,state,country,city) VALUES ('"+guid+"','"+request.body.eduInstut+"', '"+request.body.degreeCertificate+"','"+request.body.edustartYear+"','"+request.body.eduEndYear+"','"+request.body.speciality+"','"+request.body.memNumber+"','"+request.body.uid+"','"+request.body.state+"','"+request.body.country+"','"+request.body.city+"') ON DUPLICATE KEY UPDATE org_id='"+request.body.eduInstut+"',Degree='"+request.body.degreeCertificate+"', start_year='"+request.body.edustartYear+"',end_year='"+request.body.eduEndYear+"',specialization='"+request.body.speciality+"',mem_num='"+request.body.memNumber+"',city='"+request.body.city+"',state='"+request.body.state+"',country='"+request.body.country+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
             //response.status(200).send({message:'Inserted'})
-
+           
 
             var sql1="select * from coins_allocation where activity_type='ADD_EDU'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
@@ -592,17 +592,17 @@ app.post('/addEducationData',(request,response)=>{
                     console.log(resultse)
                     insertcoinsIssued(ciid,request.body.uid,resultse)
                     return response.send({uid:uid,redirectUrl: "/lumino/salaryalc.html"} );
-
+                   
 
                 }
             })
 
         }
-
+        
       })
       var sq="update user set eduSub=1 where user_id='"+uid+"' and eduSub=0"
       con.query(sq, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -612,31 +612,31 @@ app.post('/addEducationData',(request,response)=>{
            // return response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
            console.log("Submitted!")
         }
-
+        
       })
-})
+})  
 
 app.post('/addEducationDataw',(request,response)=>{
     let ciid=guidGeneratorCoin();
     console.log(JSON.stringify(request.body))
     let guid=request.body.eduID==='undefined'? guidGeneratorEducation():request.body.eduID
-
+    
    uid=request.body.uid
    var sql = "INSERT INTO education (edu_id,org_id,Degree, start_year,end_year,specialization,mem_num,user_id,state,country,city) VALUES ('"+guid+"','"+request.body.eduInstut+"', '"+request.body.degreeCertificate+"','"+request.body.edustartYear+"','"+request.body.eduEndYear+"','"+request.body.speciality+"','"+request.body.memNumber+"','"+request.body.uid+"','"+request.body.state+"','"+request.body.country+"','"+request.body.city+"') ON DUPLICATE KEY UPDATE org_id='"+request.body.eduInstut+"',Degree='"+request.body.degreeCertificate+"', start_year='"+request.body.edustartYear+"',end_year='"+request.body.eduEndYear+"',specialization='"+request.body.speciality+"',mem_num='"+request.body.memNumber+"',city='"+request.body.city+"',state='"+request.body.state+"',country='"+request.body.country+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
             //response.status(200).send({message:'Inserted'})
-
+           
 
             var sql1="select * from coins_allocation where activity_type='ADD_EDU'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
@@ -645,17 +645,17 @@ app.post('/addEducationDataw',(request,response)=>{
                     console.log(resultse)
                     insertcoinsIssued(ciid,request.body.uid,resultse)
                     return response.send({uid:uid,redirectUrl: "/lumino/dashb.html"} );
-
+                   
 
                 }
             })
 
         }
-
+        
       })
       var sq="update user set eduSub=1 where user_id='"+uid+"' and eduSub=0"
       con.query(sq, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -665,18 +665,18 @@ app.post('/addEducationDataw',(request,response)=>{
            // return response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
            console.log("Submitted!")
         }
-
+        
       })
-})
+}) 
 
 
 app.post('/getEmploymentData',(request,response)=>{
     console.log(JSON.stringify(request.body))
    // let guid=guidGenerator()
     var sql = "select * from workex where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -685,17 +685,17 @@ app.post('/getEmploymentData',(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send(results);
         }
-
+        
       })
-})
+})  
 
 app.post('/getEducationData',(request,response)=>{
     console.log(JSON.stringify(request.body))
    // let guid=guidGenerator()
     var sql = "select * from education where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -704,17 +704,17 @@ app.post('/getEducationData',(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send(results);
         }
-
+        
       })
-})
+})  
 
 app.post('/getCompareSalaryData',(request,response)=>{
     console.log(JSON.stringify(request.body))
    // let guid=guidGenerator()
     var sql = "select * from compareSalary";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -723,9 +723,9 @@ app.post('/getCompareSalaryData',(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send(results);
         }
-
+        
       })
-})
+})  
 
 function guidGenerator(){
     return "TU_"+Math.random().toString(36).substr(2, 9).toUpperCase()
@@ -788,10 +788,10 @@ function processLinkedInData(body){
 
     //var sql = "INSERT INTO basic_profile (user_id,first-name, last-name,formatted-name,phonetic-first-name,phonetic-last-name,formatted-phonetic-name,headline,location,industry,current-share,num-connections,num-connections-capped,summary,specialties,picture-url,site-standard-profile-request,api-standard-profile-request,public-profile-url,email-address) VALUES ('"+guid+"','"+request.body.regUsr+"')";
     var sql = "INSERT INTO user (user_id,user_name, email_id,created_at,last_updated,created_by) VALUES ('"+userId+"','"+firstName+" "+lastName+"', '"+email_id+"', '"+created+"', '"+created+"', '"+userId+"')";
-
+   
     //positions.Keys
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             console.log(error)
         }
@@ -800,14 +800,14 @@ function processLinkedInData(body){
             console.log('The solution is: ', JSON.stringify(results));
             var sql1="select * from coins_allocation where activity_type='SIGNUP'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw)
+                if (errorw) 
                 {
                    // response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
                 else{
                     console.log(resultse)
-
+      
                    // response.send({guid:guid,redirectUrl: "/lumino/addExp.html"} );
                     insertcoinsIssued(ciid,userId,resultse)
                 }
@@ -831,14 +831,14 @@ function processLinkedInData(body){
         st+="org_id,"
         st1+="'"+ positions[i].company.name +"',";
         }
-
+      
         st+="user_id)";
         st1 +="'"+userId+"')";
      st=st+st1;
     // positions.
     // var st= "INSERT INTO workex (exp_id,job_title_id, start_date,org_id,user_id) VALUES ('"+guid+"','"+ positions.values[1].title +"','"+positions.values[1].startDate.month+"/"+positions.values[1].startDate.year+"','"+positions.values[1].company.name+"','"+userId+"')";
     con.query(st, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             console.log(error)
         }
@@ -856,9 +856,9 @@ app.post('/checkSalaryDetails',(request,response)=>{
     console.log(JSON.stringify(request.body))
     let guid=guidGeneratorCompSal()
     var sql = "select * from compareSalary where job_title='"+request.body.jobTitle+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -866,16 +866,16 @@ app.post('/checkSalaryDetails',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
-})
+})  
 app.post('/getTriviaQuestions',(request,response)=>{
     console.log(JSON.stringify(request.body))
     //let guid=guidGeneratorCompSal()
     var sql = "select * from trivia where qid not in(select qid from trivia_marksheet where user_id='"+request.body.uid+"') limit 1";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -883,14 +883,14 @@ app.post('/getTriviaQuestions',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
-})
+})  
 app.post('/getMarksheet',(request,response)=>{
     var sql = "SELECT SUM(mark) as marks FROM trivia_marksheet where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -898,7 +898,7 @@ app.post('/getMarksheet',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
 })
     //@@@@@@@@ get all job titles from job_titles page
@@ -914,7 +914,7 @@ app.post('/getMarksheet',(request,response)=>{
         })
     })
     // @@@@@@@@@@@ Getting All companynames for company dropdwon from company_names table @ Aravind M @@@@@@@@@@@@@@
-
+   
     app.post('/getAllCompanyNames',(request,reponse)=>{
         var sql = "SELECT * from company_names Limit 50"
         con.query(sql, function(error, results, fields){
@@ -951,7 +951,7 @@ app.post('/getMarksheet',(request,response)=>{
          var sql = "INSERT INTO job_titles (job_title_name,reviewed) values ('"+request.body.jTitle+"','N')";
          console.log(sql);
          con.query(sql,function(error, results, fields){
-             if (error)
+             if (error) 
              {
                  console.log("############## ERROR ############");
                  response.status(500).send({error:error})
@@ -962,7 +962,7 @@ app.post('/getMarksheet',(request,response)=>{
                response.send(results);
              }
          })
-
+ 
      })
      //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
 
@@ -972,7 +972,7 @@ app.post('/getMarksheet',(request,response)=>{
         var sql = "INSERT INTO company_names (companyname,reviewed) values ('"+request.body.companyName+"','N')";
         // console.log(sql);
         con.query(sql,function(error, results, fields){
-            if (error)
+            if (error) 
             {
                 console.log("############## ERROR ############");
                 response.status(500).send({error:error})
@@ -994,7 +994,7 @@ app.post('/getMarksheet',(request,response)=>{
          var sql = "INSERT INTO cities (name,reviewed) values ('"+request.body.location+"','N')";
             // console.log(sql);
          con.query(sql,function(error, results, fields){
-             if (error)
+             if (error) 
              {
                  console.log("############## ERROR ############");
                  response.status(500).send({error:error})
@@ -1005,7 +1005,7 @@ app.post('/getMarksheet',(request,response)=>{
                response.send(results);
              }
          })
-
+ 
      })
      //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
 
@@ -1024,17 +1024,17 @@ app.post('/getMarksheet',(request,response)=>{
     })
 
     //Getting All region from region table region_name column  @Aravind M@@@@@@@@@@
-
+   
     //Getting job details data
     app.post('/getJobDetailsData',(request,response)=>{
         // console.log("getting job details data ## dk");
         // console.log("hello",JSON.stringify(request.body));
-
+    
         //  var sql = "SELECT * from job_Board inner join job_titles on (job_titles.job_title_id=job_Board.job_title_id) WHERE job_titles.job_title_name='"+request.body.jTitle+"' AND cities on (cities.id=job_Board.location_id)  WHERE cities.name='"+request.body.location+"'";
         var sql = "select * from job_Board left join job_titles on job_titles.job_title_id=job_Board.job_title_id left join cities on cities.id=job_Board.location_id where job_titles.job_title_name='"+request.body.jTitle+"' AND cities.name='"+request.body.location+"' ";
 
         con.query(sql, function (error, results, fields) {
-            if (error)
+            if (error) 
             {
                 console.log("############## ERROR ############");
                 response.status(500).send({error:error})
@@ -1044,20 +1044,20 @@ app.post('/getMarksheet',(request,response)=>{
                 console.log("############## success ############");
             response.send(results);
             }
-
+            
         })
     })
 
-    //posting jobboard data
+    //posting jobboard data 
 
-
+    
     app.post('/addJobBoardData',(request,response)=>{
         console.log("Job titles testting in index.js file");
         console.log("hello",JSON.stringify(request.body));
         var sql = "INSERT INTO  job_Board (ref_user_id,company_id,job_title_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date) VALUES ('"+request.body.uid+"', (SELECT company_id FROM company_names WHERE companyname ='"+request.body.companyName+"'), (SELECT job_title_id FROM job_titles WHERE job_title_name ='"+request.body.jTitle+"'), (SELECT id FROM cities WHERE name ='"+request.body.location+"'), '"+request.body.experiance+"','"+request.body.jobDetails+"','"+request.body.jobSummary+"','"+request.body.postedDate+"','"+request.body.activeTillDate+"')";
         console.log(sql);
         con.query(sql,function(error, results, fields){
-            if (error)
+            if (error) 
             {
                 console.log("############## ERROR ############");
                 response.status(500).send({error:error})
@@ -1078,9 +1078,9 @@ app.post('/updateMarksheet',(request,response)=>{
     console.log(JSON.stringify(request.body))
     //let guid=guidGeneratorCompSal()
     var sql = "insert into trivia_marksheet (qid,user_id,mark) values('"+request.body.qid+"','"+request.body.uid+"','"+request.body.mark+"')";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -1088,81 +1088,81 @@ app.post('/updateMarksheet',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
-})
+})  
 
 app.post('/getItrustData',(request,response)=>{
 //var sql ="SELECT * from workex where user_id='"+request.body.uid+"'"
 var sql="SELECT user_name,user_id FROM truskendb.user where user_id in (select user_id from truskendb.workex where org_id in (select org_id from truskendb.workex where user_id='"+request.body.uid+"') and start_date >=( select start_date from truskendb.workex where user_id='"+request.body.uid+"' )) and user_id not like '"+request.body.uid+"' and user_id not in (select trusted_user_id from itrust where trusted_by_user_id='"+request.body.uid+"')"
 con.query(sql, function (error, results, fields) {
-    if (error)
+    if (error) 
     {
         response.status(500).send({error:error})
     }
-    //
+    // 
     else
     {
         console.log('The solution is: ', JSON.stringify(results))
         response.send(results)
         // var sqq="select user_id from workex where org_id='"+results[0].org_id+"'"
         // con.query(sqq, function (error, results1, fields) {
-        //     if (error)
+        //     if (error) 
         //     {
         //         response.status(500).send({error:error})
         //     }
-        //     //
+        //     // 
         //     else
         //     {
         //         var resultse=[]
-
-
+                
+              
         //         results1.forEach((element,index) => {
         //         var sqq1="select user_name,email_id,user_id from user where user_id='"+element.user_id+"'"
         //         con.query(sqq1, function (error, results2, fields) {
-
-        //             if (error)
+                    
+        //             if (error) 
         //             {
         //                 response.status(500).send({error:error})
         //             }
-        //             //
+        //             // 
         //             else
         //             {
-
+                      
         //                 resultse[index]=results2;
         //                 if(resultse.length==results1.length){
         //                 response.send(resultse);
         //                // response.send(results);
         //                 }
-
-
+                        
+                
         //                 }
-
-
-
+                            
+                    
+                        
         //           })
-
-
+                 
+        
         //         })
-
-
-
-
+            
+                
+           
+            
         //     }
         // })
         }
-
-
-
+        
+   
+    
   })
 })
 
 app.post('/getEmployeDate',(request,response)=>{
-
+   
     var sql = "SELECT * from workex where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -1170,16 +1170,16 @@ app.post('/getEmployeDate',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
 })
 
 app.post('/getCurrentUserDate',(request,response)=>{
-
+   
     var sql = "SELECT * from workex where user_id='"+request.body.uid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -1187,29 +1187,29 @@ app.post('/getCurrentUserDate',(request,response)=>{
         else{
           response.send(results);
         }
-
+        
       })
 })
 let meat=[];
 app.post('/getBadgeDetails',(request,response)=>{
-
+   
     //var sql = "select verification_status from workex where user_id='"+request.body.uide+"'";
     var sql="SELECT * FROM truskendb.badges where badge_id in (select badge_id from workex where user_id='"+request.body.uide+"')"
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
         else{
             response.send(results)
-
+            
         //     results.forEach((elements)=>{
         //         if(elements.verification_status==1){
         //             var sq = "select * from badges where badge_id='1'";
-
+        
         // con.query(sq, function (error, picto, fields) {
-        //     if (error)
+        //     if (error) 
         //     {
         //         response.status(500).send({error:error})
         //     }
@@ -1217,43 +1217,43 @@ app.post('/getBadgeDetails',(request,response)=>{
         //         meat[0]=picto;
         //         meat[1]=results;
         //         response.send(meat);
-
+                
         //        // response.send(results);
         //     }
-
+        
         //     })
         //   }else{
         //     // var sq = "select * from badges where badge_id='2'";
-
+        
         //     // con.query(sq, function (error, picto, fields) {
-        //     //     if (error)
+        //     //     if (error) 
         //     //     {
         //     //         response.status(500).send({error:error})
         //     //     }
         //     //     else{
-
+        
         //     //         //if(meat[0]!=""){
         //     //         meat[0]=picto;
         //     //         meat[1]=results;
         //     //     //     }else{
         //     //     //     meat[0]=picto;
         //     //     // meat[1]=results;
-
+            
         //     //     response.send(meat);
         //     //     }
-
-
+            
+                
         //     // })
-
+            
         //     }
-
+            
         // })
-
-
-
-
+            
+            
+            
+    
         }
-
+        
       })
 })
 
@@ -1261,9 +1261,9 @@ app.post('/getbadDetails',(request,response)=>{
     console.log(JSON.stringify(request.body))
    // let guid=guidGenerator()
     var sql = "select * from badges where badge_id='"+request.body.bid+"'";
-
+    
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             response.status(500).send({error:error})
         }
@@ -1272,13 +1272,13 @@ app.post('/getbadDetails',(request,response)=>{
             //response.status(200).send({message:'Inserted'})
             return response.send(results);
         }
-
+        
       })
-})
+})  
 
 
 app.post('/trustMe',(request,response)=>{
-
+  
   let values=[]
   request.body.for_user.forEach((user)=>{
     let guid= guidGeneratoriTrust()
@@ -1286,7 +1286,7 @@ app.post('/trustMe',(request,response)=>{
   })
     var sql = "insert into itrust (itrust_id,trusted_user_id,trusted_by_user_id) values "+values.toString();
     con.query(sql, function (error, results, fields) {
-        if (error)
+        if (error) 
         {
             console.log(results)
         }
@@ -1295,43 +1295,43 @@ app.post('/trustMe',(request,response)=>{
             let ciid=guidGeneratorCoin()
          var sql1="select * from coins_allocation where activity_type='ITRUST_U'"
          con.query(sql1, function (errorw, resultse, fieldqs) {
-             if (errorw)
+             if (errorw) 
              {
                 // response.status(500).send({error:error})
              }
              // console.log('The solution is: ', JSON.stringify(results));
              else{
                  console.log(resultse)
-
-
+   
+                
                  insertcoinsIssued(ciid,request.body.by_user,resultse)
              }
          })
          var sql2="select * from coins_allocation where activity_type='U_TRUST_ME'"
          let ciqid=guidGeneratorCoin()
          con.query(sql2, function (errorw, resultse, fieldqs) {
-             if (errorw)
+             if (errorw) 
              {
                 // response.status(500).send({error:error})
              }
              // console.log('The solution is: ', JSON.stringify(results));
              else{
                  console.log(resultse)
-
+   
                  response.send(results)
                  insertcoinsIssued(ciqid,request.body.for_user[0],resultse)
              }
          })
         }
-
+        
       })
-
+    
 })
 
 app.post('/totalCoins',(request,response)=>{
     var sql2="select sum(coins_earned) as coinsTot from coins_v where user_id='"+request.body.uid+"'";
                con.query(sql2, function (errorw, results, fieldqs) {
-                   if (errorw)
+                   if (errorw) 
                    {
                     console.log(errorw)
                       // response.status(500).send({error:error})
@@ -1339,8 +1339,8 @@ app.post('/totalCoins',(request,response)=>{
                    // console.log('The solution is: ', JSON.stringify(results));
                    else{
                     response.send(results)
-
-
+                    
+                       
                    }
                })
 
@@ -1351,25 +1351,25 @@ app.post('/totalCoins',(request,response)=>{
             let guid=guidGenerator()
             let ciid=guidGeneratorCoin()
             var sql = "INSERT INTO user (user_id,user_name, email_id,password,signature,referral_id,created_at,created_by,last_updated) VALUES ('"+guid+"','"+request.body.regUsr+"', '"+request.body.regEmail+"','"+request.body.regPass+"','"+request.body.signature+"','"+request.body.refId+"','"+created+"','"+guid+"','"+created+"')";
-
+            
             con.query(sql, function (error, results, fields) {
-                if (error)
+                if (error) 
                 {
                     response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
                 else{
-
+                   
                     var sql1="select * from coins_allocation where activity_type='SIGNUP'"
                     con.query(sql1, function (errorw, resultse, fieldqs) {
-                        if (errorw)
+                        if (errorw) 
                         {
                            // response.status(500).send({error:error})
                         }
                         // console.log('The solution is: ', JSON.stringify(results));
                         else{
                             console.log(resultse)
-
+              
                           //  response.send({guid:guid,redirectUrl: "/lumino/addExp.html"} );
                             insertcoinsIssued(ciid,guid,resultse)
                         }
@@ -1377,19 +1377,19 @@ app.post('/totalCoins',(request,response)=>{
                     let cqid=guidGeneratorCoin()
                     var sql3="select * from coins_allocation where activity_type='REFFERED'"
                     con.query(sql3, function (errorw, resultsee, fieldqs) {
-                        if (errorw)
+                        if (errorw) 
                         {
                            // response.status(500).send({error:error})
                         }
                         // console.log('The solution is: ', JSON.stringify(results));
                         else{
                             console.log(resultsee)
-
+              
                             response.send({guid:guid,redirectUrl: "/refferalsignup.html"} );
                             insertcoinsIssued(cqid,request.body.refId,resultsee)
                         }
                     })
-
+        
                     let content=mailer.getMailTemplate(guid,request.body.regUsr)
                     mailer.sendMail(request.body.regEmail,'Trusken Registration Verification',content,(res) => {
                         if(res.status == 200)
@@ -1401,24 +1401,24 @@ app.post('/totalCoins',(request,response)=>{
                             console.log("mail failed")
                         }
                     })
-
+                   
                 }
-
+                
               })
-
-
-
-            })
-
+        
+             
+        
+            }) 
+         
             app.post('/passRequest',(request,response)=>{
-
-
+                
+                
                 let content=mailer.getFpassMailTemplate(request.body.fpass)
                 mailer.sendMail(request.body.fpass,'Reset your password for Trusken',content,(response) => {
                     if(response.status == 200)
                     {
                         console.log("mail success")
-
+                        
                     }
                     else
                     {
@@ -1432,12 +1432,12 @@ app.post('/totalCoins',(request,response)=>{
             })
 
             app.post('/passReset', function (request, response) {
-
-
+                
+                
                 var sql = "UPDATE user SET password='"+request.body.passd+"',last_updated='"+created+"' where email_id='"+request.body.eid+"'";
-
+                  
                   con.query(sql, function (error, results, fields) {
-                      if (error)
+                      if (error) 
                       {
                           response.status(500)
                       }
@@ -1449,12 +1449,12 @@ app.post('/totalCoins',(request,response)=>{
 
 
               app.post('/companyName', function (request, response) {
-
-
+                
+                
                 var sql = "select * from company_names";
-
+                  
                   con.query(sql, function (error, results, fields) {
-                      if (error)
+                      if (error) 
                       {
                           response.status(500)
                       }
