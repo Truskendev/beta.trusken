@@ -15,7 +15,8 @@ app.use(cookieParser());
 // to run app in prod/dev mode
 if(process.env.NODE_ENV === 'production') {
     app.set('port', 80);
-    // additional prod environemtn configuration
+
+    // additional prod environment configuration
   }
 
 // forever service to run app
@@ -167,11 +168,11 @@ requestPromiseAPI(requestbody).then((body)=>{
                 {
                     if(results[0]['wexSubm']==1)
                     {
-                        // if(results[0]['eduSub']==1)
+                        if(results[0]['eduSub']==1)
                         {
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
                         }
-                        // return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
                      return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
