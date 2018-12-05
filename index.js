@@ -21,33 +21,33 @@ if(process.env.NODE_ENV === 'production') {
 
 // forever service to run app
 
-var forever = require('forever-monitor');
+// var forever = require('forever-monitor');
 
-  var child = new (forever.Monitor)('index.js', {
-    max: 3,
-    silent: true,
-    args: []
-  });
+//   var child = new (forever.Monitor)('index.js', {
+//     max: 3,
+//     silent: true,
+//     args: []
+//   });
 
-  child.on('exit', function () {
-    console.log('index.js has exited after 3 restarts');
-  });
+//   child.on('exit', function () {
+//     console.log('index.js has exited after 3 restarts');
+//   });
 
-  child.start();
+//   child.start();
 
-var child = new (forever.Monitor)('index.js');
+// var child = new (forever.Monitor)('index.js');
 
-child.on('watch:restart', function(info) {
-    console.error('Restaring script because ' + info.file + ' changed');
-});
+// child.on('watch:restart', function(info) {
+//     console.error('Restaring script because ' + info.file + ' changed');
+// });
 
-child.on('restart', function() {
-    console.error('Forever restarting script for ' + child.times + ' time');
-});
+// child.on('restart', function() {
+//     console.error('Forever restarting script for ' + child.times + ' time');
+// });
 
-child.on('exit:code', function(code) {
-    console.error('Forever detected script exited with code ' + code);
-});
+// child.on('exit:code', function(code) {
+//     console.error('Forever detected script exited with code ' + code);
+// });
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
