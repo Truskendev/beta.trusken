@@ -68,9 +68,9 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "142.93.218.67",
-  user: "truskendbuser",
-   password: "Authtruskendb@18",
+  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
+  user: "trusken123",
+   password: "qwerty1995",
    database : 'truskendb'
 
 });
