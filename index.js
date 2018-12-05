@@ -68,9 +68,9 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
-  user: "trusken123",
-   password: "qwerty1995",
+  host: "142.93.218.67",
+  user: "truskendbuser",
+   password: "Authtruskendb@18",
    database : 'truskendb'
 
 });
@@ -172,7 +172,7 @@ requestPromiseAPI(requestbody).then((body)=>{
                         {
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
                         }
-                        //return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
                      return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
