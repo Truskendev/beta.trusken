@@ -172,7 +172,7 @@ requestPromiseAPI(requestbody).then((body)=>{
                         {
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
                         }
-                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        //return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
                      return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
