@@ -68,9 +68,9 @@ app.use((req, res, next) => {
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "142.93.218.67",
-  user: "truskendbuser",
-   password: "Authtruskendb@18",
+  host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
+  user: "trusken123",
+   password: "qwerty1995",
    database : 'truskendb'
 
 });
@@ -89,7 +89,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(3000,'localhost' ,function (){
+var server = app.listen(80,'139.59.6.36' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)

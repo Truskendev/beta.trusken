@@ -74,6 +74,17 @@ var con = mysql.createConnection({
    database : 'truskendb'
 
 });
+<<<<<<< HEAD
+=======
+
+// var con = mysql.createConnection({
+//   host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
+//   user: "trusken123",
+//    password: "qwerty1995",
+//    database : 'truskendb'
+
+// });
+>>>>>>> 098c5518771efbea0622b8c9fb2b001c356cc107
 
 con.connect(function(err) {
   if (err) throw err;
