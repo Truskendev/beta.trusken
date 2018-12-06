@@ -346,7 +346,7 @@ function updateProfile() {
 		}
 
 		if($('#activeTillDate').val()==''){
-			alert("Please Enter Job Details ");
+			alert("Please Enter Expire Date of This Posted Job ");
 			// document.getElementById('activeTillDate').focus('activeTillDate');
 			return false;
 		}
@@ -361,6 +361,9 @@ function updateProfile() {
 		
 		let LsCities = localStorage.getItem('citiess');
 		let allCityNames = JSON.parse(LsCities);
+
+		let LsSkills = localStorage.getItem('keySkills');
+		let allSkills = JSON.parse(LsSkills);
 
 		let jobBoardData = {
 			jTitle: $('#jobTitle').val(),
@@ -418,11 +421,31 @@ function updateProfile() {
 			}
 			//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
 
+			//############ skill name posting to skills table ########### Aravind ##########
+			let skillsData ={
+				skills : jobBoardData.skills
+			}
+			let indexxx = allSkills.map(ele => { return ele.skill_name}).indexOf(jobBoardData.skills);
+			if(indexxx==-1){
+				$.post("/addSkillName",skillsData,function(response){
+					console.log("skills Posting@@@@@@@@",response);
+					console.log(response.insertId);
+					jobBoardData.skills=response.insertId;
+				})
+			}
+
+
+			//############ skill name posting to skills table ########### Aravind ##########
+
+
 			console.log("%%%",jobBoardData);
 
 		$.post("/addJobBoardData", jobBoardData,function (response) {
 			console.log("@@@",response);
-			console,log("#######",jobBoardData);
+			userID = response.uid
+			console.log("In APP.js USERID",userID);
+			window.location = response.redirectUrl + '?' + userID
+			// console,log("#######",jobBoardData);
 			// userID = response.guid
 			// window.location = response.redirectUrl + '?' + userID
 			// if (response.redirectFlag === true) {
@@ -450,6 +473,7 @@ function updateProfile() {
 				log(error.responseJSON.error.sqlMessage);
 			})
 			.always(function () {
+				alert("You Are Details Are Successfully Submitted");
 				log("finished");
 			});
 
@@ -459,7 +483,8 @@ function updateProfile() {
 
 		let jobSearchedData= {
 			jTitle: $('#inputJobTitle').val(),
-			location: $('#city').val()
+			location: $('#city').val(),
+			skills: $('Skills').val(),
 		}
 
 		if($('#inputJobTitle').val()==''){
@@ -470,6 +495,12 @@ function updateProfile() {
 
 		if($('#city').val()==''){
 			alert("Please Enter Location ");
+			// document.getElementById('city').focus('city');
+			return false;
+		}
+
+		if($('#skills').val()==''){
+			alert("Please Enter Your Skills ");
 			// document.getElementById('city').focus('city');
 			return false;
 		}

@@ -164,18 +164,20 @@
 
 														<div class="form-group">
 															<label>Skills*</label>
-															<input class="form-control" id="skills" type="text" placeholder="Please Enter Your Skills">
+															<input class="form-control" id="skills" type="text" list="keySkills" placeholder="Please Enter Your Skills">
+															<datalist id="keySkills" name="keySkills">
+															</datalist>
 														</div>
 													
 														<div class="form-group">
 															<label>Job Summary*</label>
-															<input class="form-control" id="jobSummary" type="text" placeholder="In less than 100 words ">
+															<input class="form-control" id="jobSummary" type="text" maxlength="100" placeholder="In less than 100 words ">
 														</div>
 
 														<div class="form-group">
 															<label>Job Details*</label>
 															<!-- <input class="form-control" id="jobDetails" type="text" placeholder="Job Details"> -->
-															<textarea class="form-control" id="jobDetails" name="textarea" style="width:250px;height:70px;" placeholder="In less than 1000 words"></textarea>
+															<textarea class="form-control" id="jobDetails" name="textarea" maxlength="1000" style="width:250px;height:70px;" placeholder="In less than 1000 words"></textarea>
 														</div> 
 
 														<div class="form-group">
@@ -277,6 +279,16 @@
 		
 		});
 		// ############# allCities getting @ Aravind M #############
+
+		// ############# allSkills getting @ Aravind M #############
+		$.post("/getAllSkills", function (respons) {
+				localStorage.setItem("keySkills",JSON.stringify(respons));
+				respons.forEach((element,index) => {
+					// console.log(element)
+					$("#keySkills").append(new Option(element.skill_name,element.skill_name)) 
+			});
+		});
+		// ############# allSkills getting @ Aravind M #############		
 
 			//let uid = window.location.href.split('?')[1];
 		

@@ -912,7 +912,7 @@ app.post('/getMarksheet',(request,response)=>{
 })
     //@@@@@@@@ get all job titles from job_titles page
     app.post('/getAllJobTitles',(request,reponse)=>{
-        var sql = "SELECT * from job_titles limit 50"
+        var sql = "SELECT * from job_titles limit 10"
         con.query(sql, function(error, results, fields){
             if(error){
                 response.status(500).send({error:error})
@@ -925,7 +925,7 @@ app.post('/getMarksheet',(request,response)=>{
     // @@@@@@@@@@@ Getting All companynames for company dropdwon from company_names table @ Aravind M @@@@@@@@@@@@@@
    
     app.post('/getAllCompanyNames',(request,reponse)=>{
-        var sql = "SELECT * from company_names Limit 50"
+        var sql = "SELECT * from company_names Limit 10"
         con.query(sql, function(error, results, fields){
             if(error){
                 response.status(500).send({error:error})
@@ -940,7 +940,7 @@ app.post('/getMarksheet',(request,response)=>{
 
     // @@@@@@@@@@@ Getting All Cities for cities dropdwon from cities table @ Aravind M @@@@@@@@@@@@@@
     app.post('/getAllCities',(request,reponse)=>{
-        var sql = "SELECT * from cities Limit 100"
+        var sql = "SELECT * from cities Limit 10"
         con.query(sql, function(error, results, fields){
             if(error){
                 response.status(500).send({error:error})
@@ -953,12 +953,27 @@ app.post('/getMarksheet',(request,response)=>{
 
     // @@@@@@@@@@@ Getting All Cities for cities dropdwon from cities table  @ Aravind M @@@@@@@@@@@@@@
 
+    // @@@@@@@@@@@ Getting All skills from skills table @ Aravind M @@@@@@@@@@@@@@
+       app.post('/getAllSkills',(request,reponse)=>{
+        var sql = "SELECT * from skills Limit 10"
+        con.query(sql, function(error, results, fields){
+                if(error){
+                    response.status(500).send({error:error})
+                }
+                else{
+                    reponse.send(results);
+                }
+            })
+        })
+
+    // @@@@@@@@@@@ Getting All skills from skills table @ Aravind M @@@@@@@@@@@@@@
+
            //@@@@@@@@@@ Inserting JobTitle  to  table  @Aravind M @@@@@@@@@@@@@@
         app.post('/addJobTitle',(request,response)=>{
-            // console.log("add job title name to job_title table");
+
         //  console.log(JSON.stringify(request.body));
          var sql = "INSERT INTO job_titles (job_title_name,reviewed) values ('"+request.body.jTitle+"','N')";
-         console.log(sql);
+
          con.query(sql,function(error, results, fields){
              if (error) 
              {
@@ -979,7 +994,7 @@ app.post('/getMarksheet',(request,response)=>{
     app.post('/addCompanyName',(request,response)=>{
         // console.log(JSON.stringify(request.body));
         var sql = "INSERT INTO company_names (companyname,reviewed) values ('"+request.body.companyName+"','N')";
-        // console.log(sql);
+
         con.query(sql,function(error, results, fields){
             if (error) 
             {
@@ -996,31 +1011,53 @@ app.post('/getMarksheet',(request,response)=>{
     })
     //@@@@@@@@@@ Inserting New companyname to company_names table  @Aravind M @@@@@@@@@@@@@@
 
-           //@@@@@@@@@@ Inserting city name  to cities table  @Aravind M @@@@@@@@@@@@@@
+    //@@@@@@@@@@ Inserting city name  to cities table  @Aravind M @@@@@@@@@@@@@@
         app.post('/addCityName',(request,response)=>{
-            // console.log("add city name to cities table");
+
             //  console.log(JSON.stringify(request.body));
-         var sql = "INSERT INTO cities (name,reviewed) values ('"+request.body.location+"','N')";
-            // console.log(sql);
-         con.query(sql,function(error, results, fields){
-             if (error) 
-             {
-                 console.log("############## ERROR ############");
-                 response.status(500).send({error:error})
-             }
-             // console.log('The solution is: ', JSON.stringify(results));
-             else{
-                 console.log("############## SUCCESS ############");
-               response.send(results);
-             }
-         })
+            var sql = "INSERT INTO cities (name,reviewed) values ('"+request.body.location+"','N')";
+
+            con.query(sql,function(error, results, fields){
+                if (error) 
+                {
+                    console.log("############## ERROR ############");
+                    response.status(500).send({error:error})
+                }
+                // console.log('The solution is: ', JSON.stringify(results));
+                else{
+                    console.log("############## SUCCESS ############");
+                response.send(results);
+                }
+             })
  
-     })
+        })
      //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
+
+     
+    //@@@@@@@@@@ Inserting city name  to cities table  @Aravind M @@@@@@@@@@@@@@
+    app.post('/addSkillName',(request,response)=>{
+         console.log("adding SkillName to skills table",JSON.stringify(request.body));
+        var sql = "INSERT INTO skills (skill_name,reviewed) values ('"+request.body.skills+"','N')";
+        // console.log(sql);
+        con.query(sql,function(error, results, fields){
+            if (error) 
+            {
+                console.log("############## ERROR ############");
+                response.status(500).send({error:error})
+            }
+            // console.log('The solution is: ', JSON.stringify(results));
+            else{
+                console.log("############## SUCCESS ############");
+            response.send(results);
+            }
+         })
+
+    })
+ //@@@@@@@@@@ Inserting Inserting JobTitle  to  table table  @Aravind M @@@@@@@@@@@@@@
 
      //Getting All region from region table region_name column  @Aravind M@@@@@@@@@@
     app.post('/getAllregions',(request,reponse)=>{
-    // console.log("@@@@@@@ regions @@@@@@");
+
     var sql = "SELECT * from region"
     con.query(sql, function(error, results, fields){
         if(error){
@@ -1036,7 +1073,6 @@ app.post('/getMarksheet',(request,response)=>{
    
     //Getting job details data
     app.post('/getJobDetailsData',(request,response)=>{
-        // console.log("getting job details data ## dk");
         // console.log("hello",JSON.stringify(request.body));
     
         //  var sql = "SELECT * from job_Board inner join job_titles on (job_titles.job_title_id=job_Board.job_title_id) WHERE job_titles.job_title_name='"+request.body.jTitle+"' AND cities on (cities.id=job_Board.location_id)  WHERE cities.name='"+request.body.location+"'";
@@ -1061,10 +1097,11 @@ app.post('/getMarksheet',(request,response)=>{
 
     
     app.post('/addJobBoardData',(request,response)=>{
-        console.log("Job titles testting in index.js file");
+        uid=request.body.uid
+
         console.log("hello",JSON.stringify(request.body));
-        var sql = "INSERT INTO  job_Board (ref_user_id,company_id,job_title_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date) VALUES ('"+request.body.uid+"', (SELECT company_id FROM company_names WHERE companyname ='"+request.body.companyName+"'), (SELECT job_title_id FROM job_titles WHERE job_title_name ='"+request.body.jTitle+"'), (SELECT id FROM cities WHERE name ='"+request.body.location+"'), '"+request.body.experiance+"','"+request.body.jobDetails+"','"+request.body.jobSummary+"','"+request.body.postedDate+"','"+request.body.activeTillDate+"')";
-        console.log(sql);
+        var sql = "INSERT INTO  job_Board (ref_user_id,company_id,job_title_id,location_id,exp_years,skill_id,job_details,job_summary,posted_date,active_till_date) VALUES ('"+request.body.uid+"', (SELECT company_id FROM company_names WHERE companyname ='"+request.body.companyName+"'), (SELECT job_title_id FROM job_titles WHERE job_title_name ='"+request.body.jTitle+"'), (SELECT id FROM cities WHERE name ='"+request.body.location+"'), '"+request.body.experiance+"', (SELECT skill_id FROM skills WHERE skill_name ='"+request.body.skills+"'), '"+request.body.jobDetails+"','"+request.body.jobSummary+"','"+request.body.postedDate+"','"+request.body.activeTillDate+"')";
+
         con.query(sql,function(error, results, fields){
             if (error) 
             {
@@ -1074,8 +1111,8 @@ app.post('/getMarksheet',(request,response)=>{
             // console.log('The solution is: ', JSON.stringify(results));
             else{
                 console.log("############## SUCCESS ############");
-                response.send(results);
-                //  response.send({guid:guid,redirectUrl: "/lumino/jobBoard.html"} );
+                // response.send(results);
+                response.send({uid:uid,redirectUrl: "/lumino/jobBoard.html"} );
             }
         })
 

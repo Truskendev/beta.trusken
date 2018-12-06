@@ -253,6 +253,11 @@
 									<datalist id="allCities" name="city">
 									</datalist>
 								</div>
+								<div class="form-group">
+									<input class="form-control" id="Skills" type="search" list="keySkills" placeholder="Skills" title="Search for skills">
+									<datalist id="keySkills" name="keySkills">
+									</datalist>
+								</div>
 							</form>
 							<div>
 								<button type="button" onclick="search()" class="btn btn-primary">SEARCH</button>
@@ -336,9 +341,6 @@
 
 			// ############# allJobTitiles getting @ Aravind M #############				
 
-			// ############# allcompanyName getting @ Aravind M #############
-
-
 			// ############# allCities getting @ Aravind M #############
 			$.post("/getAllCities", function (respons) {
 				// localStorage.setItem("citiess",JSON.stringify(respons));
@@ -349,6 +351,16 @@
 
 			});
 			// ############# allCities getting @ Aravind M #############
+
+			// ############# allSkills getting @ Aravind M #############
+			$.post("/getAllSkills", function (respons) {
+					localStorage.setItem("keySkills",JSON.stringify(respons));
+					respons.forEach((element,index) => {
+						// console.log(element)
+						$("#keySkills").append(new Option(element.skill_name,element.skill_name)) 
+				});
+			});
+			// ############# allSkills getting @ Aravind M #############
 
 			//let uid = window.location.href.split('?')[1];
 
