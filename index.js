@@ -75,13 +75,21 @@ var con = mysql.createConnection({
 
 });
 
+// var con = mysql.createConnection({
+//   host: "truskendb.cyoekoc1b5ex.us-east-2.rds.amazonaws.com",
+//   user: "trusken123",
+//    password: "qwerty1995",
+//    database : 'truskendb'
+
+// });
+
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
  
 var created=new Date();
-var server = app.listen(80,'139.59.6.36' ,function (){
+var server = app.listen(3000,'localhost' ,function (){
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
@@ -168,11 +176,11 @@ requestPromiseAPI(requestbody).then((body)=>{
                 {
                     if(results[0]['wexSubm']==1)
                     {
-                        if(results[0]['eduSub']==1)
-                        {
+                        // if(results[0]['eduSub']==1)
+                        // {
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
-                        }
-                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        // }
+                        // return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
                      return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );

@@ -36,7 +36,7 @@ function getWorkTemplate(index, ID) {
                     <input class="form-control infields" id="workTitle`+ index + `" list="jTitles" type="text" placeholder="Job Title">
                     <datalist id="jTitles" name="jTitle">
                     </datalist>
-            <div>        
+            </div>        
             <div class="form-group">
                 <label>Company*</label>
                     <input class="form-control infields" id="companyName`+ index + `"  type="text" list="companyName" placeholder="Company">

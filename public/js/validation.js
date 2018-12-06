@@ -3,77 +3,77 @@
 	var email = $('#email');
 	var cfg = {
 		fields: {
-			email: {
-				debug: true,
-				//trigger: 'keyup',
-				throttle: 250,
-				validators: {
-					proveRequired: {
-						//debug: true,
-						enabled: '#optout:not(:checked)', // true, false, selector string, callback
-						message: 'Your email is required unless you opt out.',
-					},
-					provePattern: {
-						debug: true,
-						regex: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}',
-						message: 'Invalid email address.' //optional, passed to decorator
-					}
-				}
-			},
+			// email: {
+			// 	debug: true,
+			// 	//trigger: 'keyup',
+			// 	throttle: 250,
+			// 	validators: {
+			// 		proveRequired: {
+			// 			//debug: true,
+			// 			enabled: '#optout:not(:checked)', // true, false, selector string, callback
+			// 			message: 'Your email is required unless you opt out.',
+			// 		},
+			// 		provePattern: {
+			// 			debug: true,
+			// 			regex: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}',
+			// 			message: 'Invalid email address.' //optional, passed to decorator
+			// 		}
+			// 	}
+			// },
 
-			name: {
-				debug: true,
-				//trigger: 'keyup',
-				throttle: 250,
-				validators: {
-					proveRequired: {
-						//debug: true,
-						enabled: '#optout:not(:checked)', // true, false, selector string, callback
-						message: 'This is a required field.',
-					},
-					provePattern: {
-						debug: true,
-						regex: '[A-Za-z0-9._%+-]',
-						message: 'This is a required field.' //optional, passed to decorator
-					}
-				}
-			},
+			// name: {
+			// 	debug: true,
+			// 	//trigger: 'keyup',
+			// 	throttle: 250,
+			// 	validators: {
+			// 		proveRequired: {
+			// 			//debug: true,
+			// 			enabled: '#optout:not(:checked)', // true, false, selector string, callback
+			// 			message: 'This is a required field.',
+			// 		},
+			// 		provePattern: {
+			// 			debug: true,
+			// 			regex: '[A-Za-z0-9._%+-]',
+			// 			message: 'This is a required field.' //optional, passed to decorator
+			// 		}
+			// 	}
+			// },
 
-			signuppassword: {
-				debug: true,
-				//trigger: 'keyup',
-				throttle: 250,
-				validators: {
-					proveRequired: {
-						//debug: true,
-						enabled: '#optout:not(:checked)', // true, false, selector string, callback
-						message: 'Please choose a strong password',
-					},
-					provePattern: {
-						debug: true,
-						regex: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}',
-						message: 'Please choose a strong password' //optional, passed to decorator
-					}
-				}
-			},
+			// signuppassword: {
+			// 	debug: true,
+			// 	//trigger: 'keyup',
+			// 	throttle: 250,
+			// 	validators: {
+			// 		proveRequired: {
+			// 			//debug: true,
+			// 			enabled: '#optout:not(:checked)', // true, false, selector string, callback
+			// 			message: 'Please choose a strong password',
+			// 		},
+			// 		provePattern: {
+			// 			debug: true,
+			// 			regex: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}',
+			// 			message: 'Please choose a strong password' //optional, passed to decorator
+			// 		}
+			// 	}
+			// },
 
-			file: {
-				validators: {
-					proveRequired: {
-						message: 'A file is required.', //optional, passed to decorator
-					}
-				}
-			},
-			'fruit[]': {
-				debug: true,
-				trigger: 'click',
-				group: true,
-				validators: {
-					proveRequired: {
-						message: 'A fruit is required.',
-					}
-				}
-			},
+			// file: {
+			// 	validators: {
+			// 		proveRequired: {
+			// 			message: 'A file is required.', //optional, passed to decorator
+			// 		}
+			// 	}
+			// },
+			// 'fruit[]': {
+			// 	debug: true,
+			// 	trigger: 'click',
+			// 	group: true,
+			// 	validators: {
+			// 		proveRequired: {
+			// 			message: 'A fruit is required.',
+			// 		}
+			// 	}
+			// },
 			dynamicField: {
 				validators: {
 					proveRequired: {

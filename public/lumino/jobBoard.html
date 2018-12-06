@@ -267,7 +267,7 @@
 					<div class="col-md-10">
 						<div class="panel panel-default card3">
 							<div class="panel-heading">
-								Job Openings <span class="pull-right"><a class="btn" style="background-color:#1d4590;color:white" onclick="postAjob()">Refer
+								Job Openings <span class="pull-right"><a class="btn" style="background-color:#1d4590;color:white" onclick="ReferAJob()">Refer
 										A Job</a></span>
 
 							</div>
@@ -314,9 +314,9 @@
 	<script>
 		window.onload = function () {
 		};
-		function postAjob() {
+		function ReferAJob() {
 			let uid = window.location.href.split('?')[1];
-			window.location = "postjob.html?" + uid;
+			window.location = "ReferAJob.html?" + uid;
 		}
 
 		$(document).ready(function () {
