@@ -17,7 +17,7 @@ app.use(cookieParser());
 if (process.env.NODE_ENV === 'production') {
     app.set('port', 80);
 
-    // additional prod environment configuration
+// additional prod environment configuration
 }
 
 // forever service to run app
@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
-    name: 'user_sid',
+    name:'user_sid',
     secret: 'SE98UK268MH_N50X5E14W_IB0ASOTKNJA',
     resave: false,
     saveUninitialized: false
@@ -61,7 +61,7 @@ app.use(session({
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
     if (req.cookies.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');
+        res.clearCookie('user_sid');        
     }
     next();
 });
@@ -98,28 +98,30 @@ var server = app.listen(80, '139.59.6.36', function () {
 var sessionChecker = (req, res, next) => {
     if (req.cookies.user_sid && req.session.user) {
         console.log('user session active')
-        let userData = req.session.user
-        if (userData['password'] === undefined) {
+        let userData=req.session.user
+        if(userData['password']===undefined)
+        {
             res.redirect('/linkedinSignin')
             return
         }
 
-        loginChecks(userData.email, userData.password).then((data) => {
+        loginChecks(userData.email,userData.password).then((data)=>{
             console.log(data)
-            if (data.redirectUrl != undefined) {
-                res.redirect(data.redirectUrl.split('.')[0] + '?' + data['guid'])
-            } else {
-                res.sendFile(__dirname + "/public/" + "inde.html");
+            if(data.redirectUrl!=undefined)
+            {
+                res.redirect(data.redirectUrl.split('.')[0]+'?'+data['guid'])
+            }else{
+                res.sendFile( __dirname + "/public/" + "inde.html" );
             }
             //response.status(200).send(data)
-        }).catch((error) => {
+        }).catch((error)=>{
             console.log(error)
             //response.status(500).send(error)
         })
 
     } else {
         next();
-    }
+    }    
 };
 // middleware function to check for logged-in users
 var PostLoginChecker = (req, res, next) => {
@@ -127,83 +129,87 @@ var PostLoginChecker = (req, res, next) => {
         next();
     }
     else {
-        res.send({ redirectFlag: true })
-    }
+        res.send({redirectFlag:true})
+    }   
 };
-app.get('/', sessionChecker, function (request, response) {
-    response.sendFile(__dirname + "/public/" + "inde.html");
+app.get('/', sessionChecker,function (request, response) {  
+     response.sendFile( __dirname + "/public/" + "inde.html" );
 });
-app.get('/linkedinSignin', function (request, response) {
+app.get('/linkedinSignin',function(request,response){
 
     response.redirect('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=8179orcfe50tvu&redirect_uri=http://beta.trusken.com/verifyLinkedin&state=987654321&scope=r_emailaddress,r_basicprofile')
 })
 
-app.get('/verifyLinkedin', function (request, response) {
+app.get('/verifyLinkedin',function(request,response){
 
-    var requestbody = {
-        url: "https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=" + request.query.code + "&redirect_uri=http://beta.trusken.com/verifyLinkedin&client_id=8179orcfe50tvu&client_secret=tH3kv033TiyCi1ST"
-        , method: "POST"
-    }
-    requestPromiseAPI(requestbody).then((body) => {
-        var accessToken = JSON.parse(body)['access_token']
-        var requestData = {
-            'url': "https://api.linkedin.com/v1/people/~:(id,email-address)?format=json",
-            'headers':
-            {
-                'Authorization': "Bearer " + accessToken
-            }
+var requestbody={
+    url:"https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code="+request.query.code+"&redirect_uri=http://beta.trusken.com/verifyLinkedin&client_id=8179orcfe50tvu&client_secret=tH3kv033TiyCi1ST"
+    ,method:"POST"
+}
+requestPromiseAPI(requestbody).then((body)=>{
+    var accessToken=JSON.parse(body)['access_token']
+    var requestData={
+        'url':"https://api.linkedin.com/v1/people/~:(id,email-address)?format=json",
+       'headers':
+       { 
+           'Authorization':"Bearer "+accessToken
         }
-        requestPromiseAPI(requestData).then((body) => {
-
-            var loginName = JSON.parse(body)['emailAddress']
-            var sql = "SELECT user_id,wexSubm,eduSub from user where email_id='" + loginName + "'"
-            con.query(sql, function (error, results, fields) {
-                if (error) {
-                    response.status(500).send({ error: error })
+    }
+    requestPromiseAPI(requestData).then((body)=>{
+       
+        var loginName=JSON.parse(body)['emailAddress'] 
+        var sql ="SELECT user_id,wexSubm,eduSub from user where email_id='"+loginName+"'"
+        con.query(sql, function (error, results, fields) {
+            if (error) 
+            {
+                response.status(500).send({error:error})
+            }
+            // 
+            else
+            {
+                request.session.user={
+                   email:loginName
                 }
-                // 
-                else {
-                    request.session.user = {
-                        email: loginName
-                    }
-                    console.log('The solution is: ', JSON.stringify(results))
-                    if (results.length === 1) {
-                        if (results[0]['wexSubm'] == 1) {
-                            // if(results[0]['eduSub']==1)
-                            // {
-                            return response.redirect('/referral_landing.html?' + results[0].user_id)
-                            // }
-                            // return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                console.log('The solution is: ', JSON.stringify(results))
+                if(results.length===1)
+                {
+                    if(results[0]['wexSubm']==1)
+                    {
+                        if(results[0]['eduSub']==1)
+                        {
+                           return response.redirect('/referral_landing.html?'+results[0].user_id)
                         }
-                        return response.redirect('/lumino/addExp.html?' + results[0].user_id)
-                        // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
-                    } else {
-                        requestData.uri = "https://api.linkedin.com/v1/people/~:(id,first-name,email-address,num-connections,formatted-name,site-standard-profile-request,api-standard-profile-request,public-profile-url,num-connections-capped,current-share,phonetic-first-name,phonetic-last-name,formatted-phonetic-name,last-name,headline,picture-url,industry,location,summary,specialties,positions:(id,title,summary,start-date,end-date,is-current,company:(id,name,type,size,industry,ticker)),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes),associations,interests,num-recommenders,date-of-birth,publications:(id,title,publisher:(name),authors:(id,name),date,url,summary),patents:(id,title,summary,number,status:(id,name),office:(name),inventors:(id,name),date,url),languages:(id,language:(name),proficiency:(level,name)),skills:(id,skill:(name)),certifications:(id,name,authority:(name),number,start-date,end-date),courses:(id,name,number),recommendations-received:(id,recommendation-type,recommendation-text,recommender),honors-awards,three-current-positions,three-past-positions,volunteer)?format=json"
-                        requestPromiseAPI(requestData)
-                            .then((body) => {
-                                processLinkedInData(body)
-
-                                let linkedinData = JSON.parse(body)
-                                let email_id = linkedinData['emailAddress']
-                                response.redirect('/refferalsignup.html?' + JSON.parse(body)['id'])
-                            })
-                            .catch((error) => {
-                                console.log(error)
-                            })
-                        //response.redirect('/lumino/home.html?error=User not found!')
+                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
+                    return response.redirect('/lumino/addExp.html?'+results[0].user_id)
+                    // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
+                }else{
+                    requestData.uri="https://api.linkedin.com/v1/people/~:(id,first-name,email-address,num-connections,formatted-name,site-standard-profile-request,api-standard-profile-request,public-profile-url,num-connections-capped,current-share,phonetic-first-name,phonetic-last-name,formatted-phonetic-name,last-name,headline,picture-url,industry,location,summary,specialties,positions:(id,title,summary,start-date,end-date,is-current,company:(id,name,type,size,industry,ticker)),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes),associations,interests,num-recommenders,date-of-birth,publications:(id,title,publisher:(name),authors:(id,name),date,url,summary),patents:(id,title,summary,number,status:(id,name),office:(name),inventors:(id,name),date,url),languages:(id,language:(name),proficiency:(level,name)),skills:(id,skill:(name)),certifications:(id,name,authority:(name),number,start-date,end-date),courses:(id,name,number),recommendations-received:(id,recommendation-type,recommendation-text,recommender),honors-awards,three-current-positions,three-past-positions,volunteer)?format=json"
+                    requestPromiseAPI(requestData)
+                    .then((body)=>{
+                        processLinkedInData(body)
+
+                        let linkedinData=JSON.parse(body)
+                        let email_id=linkedinData['emailAddress']                    
+                        response.redirect('/refferalsignup.html?'+JSON.parse(body)['id'])
+                    })
+                    .catch((error)=>{
+                        console.log(error)
+                    })
+                    //response.redirect('/lumino/home.html?error=User not found!')
                 }
-            })
-        }).catch((error) => {
-            console.log(error)
+            }
         })
-    }).catch((error) => {
+    }).catch((error)=>{
         console.log(error)
     })
+}).catch((error)=>{
+    console.log(error)
+})
 
 
 
-    // requestApi(requestbody,function(error,res,body){
+// requestApi(requestbody,function(error,res,body){
     //     if(error){
     //         console.log(error)
     //     }
@@ -251,69 +257,79 @@ app.get('/verifyLinkedin', function (request, response) {
 })
 
 app.get('/verification', function (request, response) {
-    var uid = request.query.uid
-    var sql = "UPDATE user SET is_verified=1 where user_id='" + uid + "'";
-
+  var uid=request.query.uid
+  var sql = "UPDATE user SET is_verified=1 where user_id='"+uid+"'";
+    
     con.query(sql, function (error, results, fields) {
-        if (error) {
+        if (error) 
+        {
             response.status(500)
         }
-        else {
-            response.sendFile(__dirname + "/public/" + "verification.html")
+        else{
+            response.sendFile( __dirname + "/public/" + "verification.html" )
         }
     })
 })
 
-app.get('/referral_landing', function (request, response) {
-    response.sendFile(__dirname + "/public/" + "referral_landing.html")
+app.get('/referral_landing',function(request,response){
+    response.sendFile( __dirname + "/public/" + "referral_landing.html")
 })
 
-app.get('/refferalsignup', function (request, response) {
-    response.sendFile(__dirname + "/public/" + "refferalsignup.html")
+app.get('/refferalsignup',function(request,response){
+    response.sendFile( __dirname + "/public/" + "refferalsignup.html")
 })
 
-app.post('/registerNewUser', sessionChecker, (request, response) => {
+app.post('/registerNewUser',sessionChecker,(request,response)=>{
     console.log(JSON.stringify(request.body))
-    let guid = guidGenerator()
-    let ciid = guidGeneratorCoin()
-    var sql = "INSERT INTO user (user_id,user_name, email_id,password,created_at,last_updated,created_by) VALUES ('" + guid + "','" + request.body.regUsr + "', '" + request.body.regEmail + "','" + request.body.regPass + "','" + created + "','" + created + "','" + guid + "')";
-
+    let guid=guidGenerator()
+    let ciid=guidGeneratorCoin()
+    var sql = "INSERT INTO user (user_id,user_name, email_id,password,created_at,last_updated,created_by) VALUES ('"+guid+"','"+request.body.regUsr+"', '"+request.body.regEmail+"','"+request.body.regPass+"','"+created+"','"+created+"','"+guid+"')";
+    
     con.query(sql, function (error, results, fields) {
-        if (error) {
-            response.status(500).send({ error: error })
+        if (error) 
+        {
+            response.status(500).send({error:error})
         }
         // console.log('The solution is: ', JSON.stringify(results));
-        else {
-
-            var sql1 = "select * from coins_allocation where activity_type='SIGNUP'"
+        else{
+           
+            var sql1="select * from coins_allocation where activity_type='SIGNUP'"
             con.query(sql1, function (errorw, resultse, fieldqs) {
-                if (errorw) {
-                    // response.status(500).send({error:error})
+                if (errorw) 
+                {
+                   // response.status(500).send({error:error})
                 }
                 // console.log('The solution is: ', JSON.stringify(results));
-                else {
+                else{
                     console.log(resultse)
-                    request.session.user = {
-                        guid: guid,
-                        email: request.body.regEmail,
-                        password: request.body.regPass
+                    request.session.user={
+                        guid:guid,
+                        email:request.body.regEmail,
+                        password:request.body.regPass
                     }
-                    response.send({ guid: guid, redirectUrl: "/refferalsignup.html" });
-                    insertcoinsIssued(ciid, guid, resultse)
+                    response.send({guid:guid,redirectUrl: "/refferalsignup.html"} );
+                    insertcoinsIssued(ciid,guid,resultse)
                 }
             })
 
-            let content = mailer.getMailTemplate(guid, request.body.regUsr)
-            mailer.sendMail(request.body.regEmail, 'Trusken Registration Verification', content, (res) => {
-                if (res.status == 200) {
+            let content=mailer.getMailTemplate(guid,request.body.regUsr)
+            mailer.sendMail(request.body.regEmail,'Trusken Registration Verification',content,(res) => {
+                if(res.status == 200)
+                {
                     console.log("mail success")
                 }
-                else {
+                else
+                {
                     console.log("mail failed")
                 }
             })
+           
         }
-    })
+        
+      })
+
+     
+
 })
 
 function insertcoinsIssued(ciid, guid, resultse) {
