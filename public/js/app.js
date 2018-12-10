@@ -14,32 +14,32 @@ function login() {
 		loginName: $('#uname').val(),
 		loginPass: $('#passw').val()
 	}
-	
-		if(isValidEmail(loginData['loginName'])) {
-			if ((loginData['loginPass'].length > 1)) {
-		$.post("/loginUser", loginData, function (response) {
-			//log(response);
-			if (response.status == 200) { alert(response.user_id) }
-			else {
-				userID = response.guid
-				window.location = response.redirectUrl + '?' + userID
-			}
-		})
-			.done(function () {
-				log("second success");
+
+	if (isValidEmail(loginData['loginName'])) {
+		if ((loginData['loginPass'].length > 1)) {
+			$.post("/loginUser", loginData, function (response) {
+				//log(response);
+				if (response.status == 200) { alert(response.user_id) }
+				else {
+					userID = response.guid
+					window.location = response.redirectUrl + '?' + userID
+				}
 			})
-			.fail(function (error) {
-				log(error.responseJSON.error.sqlMessage);
-			})
-			.always(function () {
-				log("finished");
-			});
+				.done(function () {
+					log("second success");
+				})
+				.fail(function (error) {
+					log(error.responseJSON.error.sqlMessage);
+				})
+				.always(function () {
+					log("finished");
+				});
 
 		} else {
-			alert("Please Enter Password")
+			alert("Please enter the password")
 		}
 	} else {
-		alert("Please Enter valid Email id")	
+		alert("Please enter a valid email id")
 	}
 }
 function loginHom(rid) {
@@ -55,8 +55,8 @@ function loginHom(rid) {
 
 
 
-	if  ((loginDat['regUsr'].length > 1)) {
-		if(isValidEmail(loginDat['regEmail'])) {
+	if ((loginDat['regUsr'].length > 1)) {
+		if (isValidEmail(loginDat['regEmail'])) {
 			if ((loginDat['regPass'].length > 1)) {
 				if ((regCheck.is(":checked"))) {
 
@@ -65,7 +65,7 @@ function loginHom(rid) {
 						if (response.status == 500) { alert("User already exists") }
 						userID = response.guid
 						window.location = response.redirectUrl + '?' + userID
-			
+
 					})
 						.done(function () {
 							log("second success");
@@ -78,21 +78,21 @@ function loginHom(rid) {
 							//$('#myModal2').hide();
 							//log("finished");
 						});
+				} else {
+					alert("Please check the user agreement")
+				}
 			} else {
-				alert("Please check the user agreement")
+				alert("Please enter the correct password")
 			}
 		} else {
-			alert("Please enter the correct password")
+			alert("Please enter a valid email id")
 		}
 	} else {
-		alert("Please enter a valid email id")	
-	}
-} else {
-	alert("Please enter your user name")
-	
-}
+		alert("Please enter your user name")
 
-	
+	}
+
+
 }
 const log = console.log
 function modalData() {
@@ -110,43 +110,43 @@ function registerUser() {
 
 	}
 
-	
 
-		if  ((userData['regUsr'].length > 1)) {
-			if(isValidEmail(userData['regEmail'])) {
-				if ((userData['regPass'].length > 1)) {
-					if ((regCheck.is(":checked"))) {
-		$.post("/registerNewUser", userData, function (response) {
-			//log(response.redirectUrl);
-			if (response.status == 500) { alert("User already exists") }
-			userID = response.guid
-			window.location = response.redirectUrl + '?' + userID
-		})
-			.done(function () {
 
-				log("second success");
-			})
-			.fail(function (error) {
-				log(error.responseJSON.error.sqlMessage);
-			})
-			.always(function (response) {
-				if (response.status == 500) { alert("User already exists") }
-				$('#myModal2').hide();
-				log("finished");
-			});
+	if ((userData['regUsr'].length > 1)) {
+		if (isValidEmail(userData['regEmail'])) {
+			if ((userData['regPass'].length > 1)) {
+				if ((regCheck.is(":checked"))) {
+					$.post("/registerNewUser", userData, function (response) {
+						//log(response.redirectUrl);
+						if (response.status == 500) { alert("User already exists") }
+						userID = response.guid
+						window.location = response.redirectUrl + '?' + userID
+					})
+						.done(function () {
+
+							log("second success");
+						})
+						.fail(function (error) {
+							log(error.responseJSON.error.sqlMessage);
+						})
+						.always(function (response) {
+							if (response.status == 500) { alert("User already exists") }
+							$('#myModal2').hide();
+							log("finished");
+						});
+				} else {
+					alert("Please check the user agreement")
+				}
+			} else {
+				alert("Please enter the correct password")
+			}
 		} else {
-			alert("Please check the user agreement")
+			alert("Please enter a valid email id")
 		}
 	} else {
-		alert("Please enter the correct password")
-	}
-} else {
-	alert("Please enter a valid email id")	
-}
-} else {
-alert("Please enter your user name")
+		alert("Please enter your user name")
 
-}
+	}
 
 }
 function loadaddExperiance(uid) {
@@ -290,273 +290,273 @@ function updateProfile() {
 
 
 }
-	// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
-		//Job Board posting  Aravind
-	function loadJobBoardPage(){
-		console.log("Job board testing");
-		console.log("skills testing",$('#skills').val());
-		if($('#jobTitle').val()==''){
-			alert("Please Enter Job Title");
-			document.getElementById('jobTitle').focus();
-			return false;
-		}
-
-		
-		if($('#jobPostcompanyName').val()==''){
-			alert("Please Enter Company Name");
-			// document.getElementById('jobPostcompanyName').focus('jobPostcompanyName');
-			return false;
-		}
-		
-		if($('#city').val()==''){
-			alert("Please Enter Location Name");
-			// document.getElementById('city').focus('city');
-			return false;
-		}
-
-
-		if($('#experiance').val()=='year'){
-			alert("Please Enter Your Experience");
-			// document.getElementById('experiance').focus('experiance');
-			return false;
-		}
-
-		if($('#skills').val()==''){
-			alert("Please Enter Your Skills");
-			// document.getElementById('experiance').focus('experiance');
-			return false;
-		}
-
-		if($('#jobSummary').val()==''){
-			alert("Please Enter Job Summary ");
-			// document.getElementById('jobSummary').focus('jobSummary');
-			return false;
-		}
-
-		if($('#jobDetails').val()==''){
-			alert("Please Enter Job Details ");
-			// document.getElementById('jobDetails').focus('jobDetails');
-			return false;
-		}
-
-		if($('#postedDate').val()==''){
-			alert("Please Post Today's Date ");
-			// document.getElementById('postedDate').focus('postedDate');
-			return false;
-		}
-
-		if($('#activeTillDate').val()==''){
-			alert("Please Enter Expire Date of This Posted Job ");
-			// document.getElementById('activeTillDate').focus('activeTillDate');
-			return false;
-		}
-
-
-		let Lscompanynames = localStorage.getItem('companynames');
-		let allCompanyNames = JSON.parse(Lscompanynames);
-			
-		
-		let Lsjobdetails = localStorage.getItem('jobtitles');
-		let allJobTitles = JSON.parse(Lsjobdetails);
-		
-		let LsCities = localStorage.getItem('citiess');
-		let allCityNames = JSON.parse(LsCities);
-
-		let LsSkills = localStorage.getItem('keySkills');
-		let allSkills = JSON.parse(LsSkills);
-
-		let jobBoardData = {
-			jTitle: $('#jobTitle').val(),
-			companyName: $('#jobPostcompanyName').val(),
-			location: $('#city').val(),
-			experiance: $('#experiance').val(),
-			skills: $('#skills').val(),		
-			jobSummary: $('#jobSummary').val(),
-			jobDetails: $('#jobDetails').val(),
-			postedDate: $('#postedDate').val(),
-			activeTillDate: $('#activeTillDate').val(),
-			uid: window.location.href.split('?')[1]
-		}
-		console.log("userId @ hari",window.location.href.split('?')[1]);
-		
-			//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table@@@@@@@ Aravind@@@@@@@
-			let companynamesData = {
-				companyName : jobBoardData.companyName
-			}
-			let index = allCompanyNames.map(ele => { return ele.companyname}).indexOf(jobBoardData.companyName);
-			if(index==-1){
-				$.post("/addCompanyName",companynamesData,function(response){
-					console.log("company name Posting@@@@@@@@",response);
-					jobBoardData.company_id=response.insertId;
-				})
-			}
-			
-			//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table @@@@@@ Aravind@@@@@@@@
-
-			//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
-			let jobTitlesData = {
-				jTitle : jobBoardData.jTitle 
-			}
-			let inde = allJobTitles.map(ele => { return ele.job_title_name}).indexOf(jobBoardData.jTitle);
-			if(inde==-1){
-				$.post("/addJobTitle",jobTitlesData,function(response){
-					console.log("job title name posting ####",response);
-					console.log(response.insertId);
-					jobBoardData.job_title_id=response.insertId;
-				})
-			}
-		//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
-
-			//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
-			let cityData ={
-				location : jobBoardData.location
-			}
-			let indexx = allCityNames.map(ele => { return ele.name}).indexOf(jobBoardData.location);
-			if(indexx==-1){
-				$.post("/addCityName",cityData,function(response){
-					console.log("city name Posting@@@@@@@@",response);
-					console.log(response.insertId);
-					jobBoardData.location=response.insertId;
-				})
-			}
-			//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
-
-			//############ skill name posting to skills table ########### Aravind ##########
-			let skillsData ={
-				skills : jobBoardData.skills
-			}
-			let indexxx = allSkills.map(ele => { return ele.skill_name}).indexOf(jobBoardData.skills);
-			if(indexxx==-1){
-				$.post("/addSkillName",skillsData,function(response){
-					console.log("skills Posting@@@@@@@@",response);
-					console.log(response.insertId);
-					jobBoardData.skills=response.insertId;
-				})
-			}
-
-
-			//############ skill name posting to skills table ########### Aravind ##########
-
-
-			console.log("%%%",jobBoardData);
-
-		$.post("/addJobBoardData", jobBoardData,function (response) {
-			console.log("@@@",response);
-			userID = response.uid
-			console.log("In APP.js USERID",userID);
-			window.location = response.redirectUrl + '?' + userID
-			// console,log("#######",jobBoardData);
-			// userID = response.guid
-			// window.location = response.redirectUrl + '?' + userID
-			// if (response.redirectFlag === true) {
-			// 	window.location.href = '/'
-			// }
-			//log(response[0]);
-			// userID=response.guid	
-			// window.location=response.redirectUrl+'?'+userID
-			// $('#jTitle').text(response[0].job_title_id)
-			// $('#userNameDis').text(response[0].company_id)
-			// $('#location').text( + response[0].location_id)
-			// $('#experiance').text(exp_years)
-			// $('#jobSummary').text(job_summary)
-			// $('#jobDetails').text(job_details)
-			// $('#jobSummary').text(posted_date)
-			// $('#jobDetails').text(active_till_date)
-
-			// job_title_id,company_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date
-		})
-			.done(function () {
-
-				log("second success");
-			})
-			.fail(function (error) {
-				log(error.responseJSON.error.sqlMessage);
-			})
-			.always(function () {
-				alert("You Are Details Are Successfully Submitted");
-				log("finished");
-			});
-
+// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
+//Job Board posting  Aravind
+function loadJobBoardPage() {
+	console.log("Job board testing");
+	console.log("skills testing", $('#skills').val());
+	if ($('#jobTitle').val() == '') {
+		alert("Please enter the job title");
+		document.getElementById('jobTitle').focus();
+		return false;
 	}
 
-	function search(){
 
-		let jobSearchedData= {
-			jTitle: $('#inputJobTitle').val(),
-			location: $('#city').val(),
-			skills: $('Skills').val(),
+	if ($('#jobPostcompanyName').val() == '') {
+		alert("Please enter the company name");
+		// document.getElementById('jobPostcompanyName').focus('jobPostcompanyName');
+		return false;
+	}
+
+	if ($('#city').val() == '') {
+		alert("Please enter the city name");
+		// document.getElementById('city').focus('city');
+		return false;
+	}
+
+
+	if ($('#experiance').val() == 'year') {
+		alert("Please enter the experience");
+		// document.getElementById('experiance').focus('experiance');
+		return false;
+	}
+
+	if ($('#skills').val() == '') {
+		alert("Please enter the skills");
+		// document.getElementById('experiance').focus('experiance');
+		return false;
+	}
+
+	if ($('#jobSummary').val() == '') {
+		alert("Please enter the job summary");
+		// document.getElementById('jobSummary').focus('jobSummary');
+		return false;
+	}
+
+	if ($('#jobDetails').val() == '') {
+		alert("Please enter the job details");
+		// document.getElementById('jobDetails').focus('jobDetails');
+		return false;
+	}
+
+	if ($('#postedDate').val() == '') {
+		alert("Please post today's date");
+		// document.getElementById('postedDate').focus('postedDate');
+		return false;
+	}
+
+	if ($('#activeTillDate').val() == '') {
+		alert("Please enter job expiry date");
+		// document.getElementById('activeTillDate').focus('activeTillDate');
+		return false;
+	}
+
+
+	let Lscompanynames = localStorage.getItem('companynames');
+	let allCompanyNames = JSON.parse(Lscompanynames);
+
+
+	let Lsjobdetails = localStorage.getItem('jobtitles');
+	let allJobTitles = JSON.parse(Lsjobdetails);
+
+	let LsCities = localStorage.getItem('citiess');
+	let allCityNames = JSON.parse(LsCities);
+
+	let LsSkills = localStorage.getItem('keySkills');
+	let allSkills = JSON.parse(LsSkills);
+
+	let jobBoardData = {
+		jTitle: $('#jobTitle').val(),
+		companyName: $('#jobPostcompanyName').val(),
+		location: $('#city').val(),
+		experiance: $('#experiance').val(),
+		skills: $('#skills').val(),
+		jobSummary: $('#jobSummary').val(),
+		jobDetails: $('#jobDetails').val(),
+		postedDate: $('#postedDate').val(),
+		activeTillDate: $('#activeTillDate').val(),
+		uid: window.location.href.split('?')[1]
+	}
+	console.log("userId @ hari", window.location.href.split('?')[1]);
+
+	//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table@@@@@@@ Aravind@@@@@@@
+	let companynamesData = {
+		companyName: jobBoardData.companyName
+	}
+	let index = allCompanyNames.map(ele => { return ele.companyname }).indexOf(jobBoardData.companyName);
+	if (index == -1) {
+		$.post("/addCompanyName", companynamesData, function (response) {
+			console.log("company name Posting@@@@@@@@", response);
+			jobBoardData.company_id = response.insertId;
+		})
+	}
+
+	//@@@@@@@@@@@@@@@@  Companyname Posting to company_names table @@@@@@ Aravind@@@@@@@@
+
+	//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
+	let jobTitlesData = {
+		jTitle: jobBoardData.jTitle
+	}
+	let inde = allJobTitles.map(ele => { return ele.job_title_name }).indexOf(jobBoardData.jTitle);
+	if (inde == -1) {
+		$.post("/addJobTitle", jobTitlesData, function (response) {
+			console.log("job title name posting ####", response);
+			console.log(response.insertId);
+			jobBoardData.job_title_id = response.insertId;
+		})
+	}
+	//@@@@@@@@@@@@@@@@ jobtitle name posting to job_titles table @@@@@@ Aravind@@@@@@@@	
+
+	//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
+	let cityData = {
+		location: jobBoardData.location
+	}
+	let indexx = allCityNames.map(ele => { return ele.name }).indexOf(jobBoardData.location);
+	if (indexx == -1) {
+		$.post("/addCityName", cityData, function (response) {
+			console.log("city name Posting@@@@@@@@", response);
+			console.log(response.insertId);
+			jobBoardData.location = response.insertId;
+		})
+	}
+	//@@@@@@@@@@@@@@@@ city name posting to cities table @@@@@@ Aravind@@@@@@@@	
+
+	//############ skill name posting to skills table ########### Aravind ##########
+	let skillsData = {
+		skills: jobBoardData.skills
+	}
+	let indexxx = allSkills.map(ele => { return ele.skill_name }).indexOf(jobBoardData.skills);
+	if (indexxx == -1) {
+		$.post("/addSkillName", skillsData, function (response) {
+			console.log("skills Posting@@@@@@@@", response);
+			console.log(response.insertId);
+			jobBoardData.skills = response.insertId;
+		})
+	}
+
+
+	//############ skill name posting to skills table ########### Aravind ##########
+
+
+	console.log("%%%", jobBoardData);
+
+	$.post("/addJobBoardData", jobBoardData, function (response) {
+		console.log("@@@", response);
+		userID = response.uid
+		console.log("In APP.js USERID", userID);
+		window.location = response.redirectUrl + '?' + userID
+		// console,log("#######",jobBoardData);
+		// userID = response.guid
+		// window.location = response.redirectUrl + '?' + userID
+		// if (response.redirectFlag === true) {
+		// 	window.location.href = '/'
+		// }
+		//log(response[0]);
+		// userID=response.guid	
+		// window.location=response.redirectUrl+'?'+userID
+		// $('#jTitle').text(response[0].job_title_id)
+		// $('#userNameDis').text(response[0].company_id)
+		// $('#location').text( + response[0].location_id)
+		// $('#experiance').text(exp_years)
+		// $('#jobSummary').text(job_summary)
+		// $('#jobDetails').text(job_details)
+		// $('#jobSummary').text(posted_date)
+		// $('#jobDetails').text(active_till_date)
+
+		// job_title_id,company_id,location_id,exp_years,job_details,job_summary,posted_date,active_till_date
+	})
+		.done(function () {
+
+			log("second success");
+		})
+		.fail(function (error) {
+			log(error.responseJSON.error.sqlMessage);
+		})
+		.always(function () {
+			alert("Job is succesfully posted!");
+			log("finished");
+		});
+
+}
+
+function search() {
+
+	let jobSearchedData = {
+		jTitle: $('#inputJobTitle').val(),
+		location: $('#city').val(),
+		skills: $('Skills').val(),
+	}
+
+	if ($('#inputJobTitle').val() == '') {
+		alert("Please enter the job title");
+		// document.getElementById('skills').focus('skills');
+		return false;
+	}
+
+	if ($('#city').val() == '') {
+		alert("Please enter the city");
+		// document.getElementById('city').focus('city');
+		return false;
+	}
+
+	if ($('#skills').val() == '') {
+		alert("Please enter the skills");
+		// document.getElementById('city').focus('city');
+		return false;
+	}
+
+
+	$.post("/getJobDetailsData", jobSearchedData, function (response) {
+		console.log("fayaz", response);
+		//log(response[0]);
+		if (response.length > 0) {
+			alert("You Successfully Got The Job Board Data");
+		} else {
+			alert("No Data is available with your Inputs, Please Try again with new Inputs ");
 		}
 
-		if($('#inputJobTitle').val()==''){
-			alert("Please Enter Job Title ");
-			// document.getElementById('skills').focus('skills');
-			return false;
-		}
+		response.forEach((element) => {
 
-		if($('#city').val()==''){
-			alert("Please Enter Location ");
-			// document.getElementById('city').focus('city');
-			return false;
-		}
-
-		if($('#skills').val()==''){
-			alert("Please Enter Your Skills ");
-			// document.getElementById('city').focus('city');
-			return false;
-		}
-
-
-				$.post("/getJobDetailsData", jobSearchedData, function (response) {
-					console.log("fayaz",response);
-					//log(response[0]);
-					if(response.length>0){
-						alert("You Successfully Got The Job Board Data");						
-					}else{
-						alert("No Data is available with your Inputs, Please Try again with new Inputs ");
-					}
-		
-					response.forEach((element) => {
-					
-						// var status = element.verification_status == 0 ? "Verification in progress" : "Verified";
-						var we = 
-							`<tr>
+			// var status = element.verification_status == 0 ? "Verification in progress" : "Verified";
+			var we =
+				`<tr>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.job_id + `</td>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.posted_date + `</td>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.active_till_date + `</td>
-							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ jobSearchedData.jTitle+ `</td>
+							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ jobSearchedData.jTitle + `</td>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.job_summary + `</td>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">`+ element.exp_years + `</td>
 							<td style="color: #444444; font-weight: 600; font-size:16px;">` + jobSearchedData.location + `</td>
 							</tr>`;
-						$('#jobBoardAppend tbody').append(we);
-			
-					});
-					// userID=response.guid	
-					// window.location=response.redirectUrl+'?'+userID
-					// $('#userNameDisplay').text(response[0].user_name)
-					// $('#jobTitle').text(response[0].job_title_id)
-					// $('#companyName').text(response[0].org_id)
-					// $('#empNumber').text(response[0].emp_num)
-					// $('#startDate').text(response[0].start_date)
-					// $('#endDate').text(response[0].end_date)
-					// $('#workDescription').text(response[0].desc_work)
-					// $('#employmentType').text(response[0].emp_type_id)
+			$('#jobBoardAppend tbody').append(we);
 
-				})
-					.done(function () {
-						log("second success");
-					})
-					.fail(function (error) {
-						log(error.responseJSON.error.sqlMessage);
-					})
-					.always(function () {
-						log("finished");
-					});
-			
-		
-			
-	}
-	// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
+		});
+		// userID=response.guid	
+		// window.location=response.redirectUrl+'?'+userID
+		// $('#userNameDisplay').text(response[0].user_name)
+		// $('#jobTitle').text(response[0].job_title_id)
+		// $('#companyName').text(response[0].org_id)
+		// $('#empNumber').text(response[0].emp_num)
+		// $('#startDate').text(response[0].start_date)
+		// $('#endDate').text(response[0].end_date)
+		// $('#workDescription').text(response[0].desc_work)
+		// $('#employmentType').text(response[0].emp_type_id)
+
+	})
+		.done(function () {
+			log("second success");
+		})
+		.fail(function (error) {
+			log(error.responseJSON.error.sqlMessage);
+		})
+		.always(function () {
+			log("finished");
+		});
+
+
+
+}
+// @@@@@@@@@@@@   ARAVIND LATEST ADDED CODE @@@@@@@@@@@@@@@@@@@@@@
 
 
 
@@ -771,38 +771,38 @@ function checkWorkExp(event, expCount) {
 					// if ((workData[c]['state'].length > 1)) {
 					// 	if ((workData[c]['country'].length > 1)) {
 					// 		// if ((stDate !== '00')) {
-								if ((stMonth !== 'null')) {
-									if ((stYear !== 'null')) {
-										if((stYear < enYear)){
-											
-											$('#myModal').modal('show');
-										}else{
-											alert("please enter Your End Year Grater Than Start Year");
-										}
-									} else {
-										alert("please provide Year")
-									}
-								} else {
-									alert("please provide Month")
-								}
-							// } else {
-							// 	alert("please provide Day")
-							// }
-						// } else {
-						// 	alert("please Country Name")
-						// }
+					if ((stMonth !== 'null')) {
+						if ((stYear !== 'null')) {
+							if ((stYear < enYear)) {
+
+								$('#myModal').modal('show');
+							} else {
+								alert("End date should be greater than the start date");
+							}
+						} else {
+							alert("Please enter the year")
+						}
+					} else {
+						alert("Please enter the month")
+					}
+					// } else {
+					// 	alert("please provide Day")
+					// }
+					// } else {
+					// 	alert("please Country Name")
+					// }
 					// } else {
 					// 	alert("please provide State Name")
 					// }
 				} else {
-					alert("please Provide City Name")
+					alert("Please enter the city name")
 				}
 			} else {
-				alert("please Provide Company Name")
+				alert("Please enter the company name")
 			}
 		}
 		else {
-			alert("please Provide Title")
+			alert("Please enter the title")
 		}
 
 		// if ((workData[c]['workTitle'].length > 1)) {
@@ -813,21 +813,21 @@ function checkWorkExp(event, expCount) {
 		// 				if ((workData[c]['state'].length > 1)) {
 		// 					if ((workData[c]['country'].length > 1)) {
 		// 						if (!(workData[c]['workstartYear'].includes("null"))) {
-									
+
 		// 								if(workData[c]['workstartYear']<workData[c]['workEndYear']){
 		// 						$('#myModal').modal('show');
-						
-									
+
+
 		// 					}else {
 		// 						alert("End date is less than start Date")
 		// 					}
-						
-						
+
+
 		// 				}else {
 		// 						alert("Please provide a start date")
 		// 					} 
 
-						
+
 		// 				} else {
 		// 					alert("Please enter the city name")
 		// 				}
@@ -951,7 +951,7 @@ function addWorkexq(expCount) {
 				});
 		}
 		else {
-			alert("Please fill in the data")
+			alert("Please fill in the missing details")
 		}
 
 	}
@@ -1010,30 +1010,30 @@ function checkEduFields(event, cT) {
 			if ((eduData[c]['degreeCertificate'].length > 1)) {
 
 				if ((eduData[c]['city'].length > 1)) {
-						// if ((eduData[c]['state'].length > 1)) {
-						// 	if ((eduData[c]['country'].length > 1)) {
-								if ((eduData[c]['edustartYear'].length > 3)&&(eduData[c]['edustartYear'].length < 5) ) {
-									if ((eduData[c]['eduEndYear'].length > 3)&&(eduData[c]['eduEndYear'].length < 5) ) {
-										if (eduData[c]['edustartYear']<eduData[c]['eduEndYear']) {
+					// if ((eduData[c]['state'].length > 1)) {
+					// 	if ((eduData[c]['country'].length > 1)) {
+					if ((eduData[c]['edustartYear'].length > 3) && (eduData[c]['edustartYear'].length < 5)) {
+						if ((eduData[c]['eduEndYear'].length > 3) && (eduData[c]['eduEndYear'].length < 5)) {
+							if (eduData[c]['edustartYear'] < eduData[c]['eduEndYear']) {
 								$('#myModal').modal('show');
-							}else {
-								alert("Start year is greater than End Year")
-							}
-									}else {
-										alert("Please provide the correct year")
-									}
 							} else {
-								alert("Please provide the correct year")
+								alert("End date should be greater than the start date")
 							}
 						} else {
-							alert("Please enter the city name")
+							alert("Please enter the correct year")
 						}
 					} else {
-						alert("Please enter the state name")
+						alert("Please enter the correct year")
 					}
 				} else {
-					alert("Please enter the country name")
+					alert("Please enter the city name")
 				}
+			} else {
+				alert("Please enter the state name")
+			}
+		} else {
+			alert("Please enter the country name")
+		}
 		// 	} else {
 		// 		alert("Please enter the Degree")
 		// 	}
@@ -1090,7 +1090,7 @@ function addEducation(cT) {
 				});
 		}
 		else {
-			alert("fill in the data");
+			alert("Please fill in the missing details");
 		}
 	}
 }
@@ -1141,7 +1141,7 @@ function addEducationn(cT) {
 				});
 		}
 		else {
-			alert("fill in the data");
+			alert("Please fill in the missing details");
 		}
 	}
 }
@@ -2028,7 +2028,6 @@ function loadMbdetails(uidi, uuid) {
 		<a class="a2a_button_linkedin"></a>
 		<a class="a2a_button_facebook"></a>
 		<a class="a2a_button_twitter"></a>
-		<a class="a2a_button_google_plus"></a>
 		<a class="a2a_button_whatsapp"></a>
 		<a class="a2a_button_google_gmail"></a>
 		<a class="a2a_button_copy_link"></a>
@@ -2151,21 +2150,21 @@ function reqPassword() {
 			//log(response);
 			if (response.status == 500) {
 				log("Error")
-				alert("check your mail to reset password")
+				alert("Please check your email for reset password link")
 			}
 			else {
 
-				alert("check your mail to reset password")
+				alert("Please check your email for reset password link")
 			}
 
 
 
 
 		})
-		alert("check your mail to reset password")
+		alert("Please check your email for reset password link")
 	}
 	else {
-		alert("Please Enter the correct E-Mail Id")
+		alert("Please enter the correct email id")
 	}
 }
 
