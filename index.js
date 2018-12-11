@@ -36,35 +36,35 @@ if (process.env.NODE_ENV === 'production') {
 
 // forever service to run app
 
-// var forever = require('forever-monitor');
+var forever = require('forever-monitor');
 
-//   var child = new (forever.Monitor)('index.js', {
-//     max: 3,
-//     silent: true,
-//     args: []
-//   });
+  var child = new (forever.Monitor)('index.js', {
+    max: 3,
+    silent: true,
+    args: []
+  });
 
-//   child.on('exit', function () {
-//     console.log('index.js has exited after 3 restarts');
-//   });
+  child.on('exit', function () {
+    console.log('index.js has exited after 3 restarts');
+  });
 
-//   child.start();
+  child.start();
 
-// var child = new (forever.Monitor)('index.js');
+var child = new (forever.Monitor)('index.js');
 
-// child.on('watch:restart', function(info) {
-//     console.error('Restaring script because ' + info.file + ' changed');
-// });
+child.on('watch:restart', function(info) {
+    console.error('Restaring script because ' + info.file + ' changed');
+});
 
-// child.on('restart', function() {
-//     console.error('Forever restarting script for ' + child.times + ' time');
-// });
+child.on('restart', function() {
+    console.error('Forever restarting script for ' + child.times + ' time');
+});
 
-// child.on('exit:code', function(code) {
-//     console.error('Forever detected script exited with code ' + code);
-// });
+child.on('exit:code', function(code) {
+    console.error('Forever detected script exited with code ' + code);
+});
 
-//var mysql = require('mysql');
+// var mysql = require('mysql');
 
 // var con = mysql.createConnection({
 //     host: "142.93.218.67",
@@ -90,7 +90,7 @@ con.connect(function(err) {
 });
  
 var created=new Date();
-var server = app.listen(80,'206.189.142.47', function () {
+var server = app.listen(80,'139.59.10.193', function () {
     var host = server.address().address
     var port = server.address().port
     console.log("Server listening at http://%s:%s", host, port)
