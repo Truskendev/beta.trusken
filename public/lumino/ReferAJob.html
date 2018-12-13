@@ -107,7 +107,7 @@
 									<div class="row">
 										<div class="col-md-5">
 											<div class="panel panel-default card3" >
-												<div class="panel-heading">Post A Job</div>
+												<div class="panel-heading">Refer A Job</div>
 												<div class="panel-body">
 	
 													<form role="form" style="opacity:2; color:#000000" >
@@ -190,7 +190,7 @@
 															<input class="form-control" id="activeTillDate" type="text" placeholder="Please Enter Expire Date Of This Job">
 														</div>
 														<!-- <button class="btn btn-sm">Submit</button> -->
-														<button class="btn btn-sm btn-warning" type="button" onclick="loadJobBoardPage()">Submit</button>
+														<button class="btn btn-sm btn-warning" type="button" onclick="loadJobBoardPage();">Submit</button>
 	
 													</form>
 												</div>
@@ -237,8 +237,18 @@
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="../js/app.js"></script>
+	
 	<script>
-
+	window.onload = function () {
+            // var chart1 = document.getElementById("line-chart").getContext("2d");
+            // window.myLine = new Chart(chart1).Line(lineChartData, {
+            //     responsive: true,
+            //     scaleLineColor: "rgba(0,0,0,.2)",
+            //     scaleGridLineColor: "rgba(0,0,0,.05)",
+            //     scaleFontColor: "#c5c7cc"
+            
+        };
+        
 		$(document).ready(function () {
 			let uid=window.location.href.split('?')[1];
 		// loadJobBoardPage(uid);

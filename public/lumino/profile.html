@@ -51,14 +51,14 @@
   animation: glow 1s ease-in-out infinite alternate;
 }
 
-@-webkit-keyframes glow {
+/* @-webkit-keyframes glow {
   from {
      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0B4CFF, 0 0 40px #0B4CFF, 0 0 50px #0B4CFF, 0 0 60px #0B4CFF, 0 0 70px #0B4CFF;
   }
   to {
     text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #0B4CFF, 0 0 50px #0B4CFF, 0 0 60px #0B4CFF, 0 0 70px #0B4CFF, 0 0 80px #0B4CFF;
   }
-}
+} */
 		</style>
 </head>
 <body style="background-color: #ffffff;">
@@ -253,11 +253,11 @@
                                     <form role="form">
                                         <div class="form-group">
                                             <label>FULL NAME*</label>
-                                            <input class="form-control" id="fullName" type="text" placeholder="FULL NAME" readonly>
+                                            <input class="form-control" id="fullName" type="text" placeholder="FULL NAME">
                                         </div>
                                         <div class="form-group">
                                             <label>EMAIL/USER ID*</label>
-                                            <input class="form-control" id="emailId" type="email" placeholder="Email Id" readonly>
+                                            <input class="form-control" id="emailId" type="email" placeholder="Email Id">
                                         </div>
                                         
                                         <button type="button"   onclick="updateProfile()" class="btn btn-primary">SAVE</button>
