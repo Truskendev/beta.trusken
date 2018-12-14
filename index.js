@@ -177,11 +177,11 @@ requestPromiseAPI(requestbody).then((body)=>{
                 {
                     if(results[0]['wexSubm']==1)
                     {
-                        if(results[0]['eduSub']==1)
-                        {
+                        //if(results[0]['eduSub']==1)
+                        //{
                            return response.redirect('/referral_landing.html?'+results[0].user_id)
-                        }
-                        return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
+                        //}
+                        //return response.redirect('/lumino/addEdu.html?'+results[0].user_id)
                     }
                     return response.redirect('/lumino/addExp.html?'+results[0].user_id)
                     // return response.send({guid:results[0].user_id,redirectUrl: "/lumino/home.html"} );
@@ -496,7 +496,7 @@ app.post('/addWorkExData',(request,response)=>{
                 else{
                     console.log(resultse)
       
-                    response.send({uid:uid,redirectUrl: "/lumino/addEdu.html"} );
+                    response.send({uid:uid,redirectUrl: "/lumino/salaryalc.html"} );
                     insertcoinsIssued(ciid,request.body.uid,resultse)
 
                 }
