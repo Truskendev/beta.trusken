@@ -4,7 +4,7 @@ function sendMail(recepients, subject, text, callback){
     var transporter = nodemailer.createTransport({
         service:'gmail',
         auth: {
-               user: 'truskendevdev@gmail.com',
+               user: 'truskendev@gmail.com',
                pass: 'Docs@2018'
               // user: 'support@trusken.com',
               // pass: 'Docs@2018'
@@ -12,7 +12,7 @@ function sendMail(recepients, subject, text, callback){
        });
     
        let mailOptions = {
-        from: 'ravi@trusken.com', // sender address
+        from: 'support@trusken.com', // sender address
         to: recepients, // list of receivers
         subject: subject, // Subject line
         html: text, // plain text body
